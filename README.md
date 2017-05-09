@@ -1,6 +1,7 @@
 # learnwy_jxcc
 biyesheji
 
-first  write gen single table
-second write gen 1-n    table
-third  write gen n-m    table
+1.first  write gen single table
+2.second write gen 1-n    table
+3.third  write gen n-m    table
+
