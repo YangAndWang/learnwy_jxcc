@@ -1,0 +1,46 @@
+<div id="role_manage" style="display:none">
+    <div id="role_title" class="col-lg-3 col-sm-12">
+        <div id="role_title_content">
+
+        </div>
+        <nav id="role_pagination">
+            <ul class="pagination">
+                <li data-page="-1"><a href="#" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
+                </li>
+                <li data-page="+1"><a href="#" aria-label="Next"><span aria-hidden="true">&raquo;</span> </a></li>
+            </ul>
+        </nav>
+    </div>
+    <div class="col-lg-9  col-sm-12">
+        <form class="form-horizontal" action="/role_manage?action=update" method="post">
+            <fieldset>
+                <div>
+                    <legend>角色修改
+                        <button class="btn btn-default" onclick="addNewRole()" type="button">新增角色
+                        </button>
+                    </legend>
+                </div>
+            </fieldset>
+            <div class="control-group">
+                <div class="col-lg-3 col-lg-offset-3 col-sm-12">角色编号</div>
+                <div class="controls col-lg-6 col-sm-12">
+                    <input id="role_id" type="number" readonly name="id" class="input-xlarge">
+                </div>
+            </div>
+            <div class="control-group">
+                <div class="col-lg-3 col-lg-offset-3  col-sm-12">角色名</div>
+                <div class="controls col-lg-6 col-sm-12">
+                    <input id="role_display_name" type="text" name="display_name" class="input-xlarge">
+                </div>
+            </div>
+            <div class="control-group">
+                <div class="controls col-lg-6 col-sm-6 text-right">
+                    <button type="submit" class="btn btn-success">提交</button>
+                </div>
+                <div class="controls col-lg-6 col-sm-6 text-left">
+                    <button type="reset" class="btn btn-success">重置</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

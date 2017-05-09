@@ -1,0 +1,46 @@
+<div id="sys_menu_manage" style="display:none">
+    <div id="sys_menu_manage_tree" class="col-lg-3 col-sm-12">
+
+    </div>
+    <div class="col-lg-9  col-sm-12">
+        <form class="form-horizontal" action="/sys_menu_manage?action=update" method="post">
+            <fieldset>
+                <div>
+                    <legend>菜单管理</legend>
+                </div>
+            </fieldset>
+            <div class="control-group">
+                <div class="col-lg-3 col-lg-offset-3 col-sm-12">菜单编号</div>
+                <div class="controls col-lg-6 col-sm-12">
+                    <input id="sys_menu_id" type="number" readonly name="id" class="input-xlarge">
+                </div>
+            </div>
+            <div class="control-group">
+                <div class="col-lg-3 col-lg-offset-3  col-sm-12">菜单名</div>
+                <div class="controls col-lg-6 col-sm-12">
+                    <input id="sys_menu_name" type="text" name="name" class="input-xlarge">
+                </div>
+            </div>
+            <div class="control-group">
+                <div class="col-lg-3 col-lg-offset-3  col-sm-12">菜单路径</div>
+                <div class="controls col-lg-6 col-sm-12">
+                    <input type="text" id="sys_menu_path" readonly name="path" class="input-xlarge">
+                </div>
+            </div>
+            <div class="control-group">
+                <div class="col-lg-3 col-lg-offset-3 col-sm-12">父菜单编号</div>
+                <div class="controls col-lg-6 col-sm-12">
+                    <input type="number" id="sys_menu_pid" name="pid" class="input-xlarge">
+                </div>
+            </div>
+            <div class="control-group">
+                <div class="controls col-lg-6 col-sm-6 text-right">
+                    <button type="submit" class="btn btn-success">提交</button>
+                </div>
+                <div class="controls col-lg-6 col-sm-6 text-left">
+                    <button type="reset" class="btn btn-success">重置</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

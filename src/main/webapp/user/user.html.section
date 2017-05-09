@@ -1,0 +1,58 @@
+<div id="user_manage" style="display:none">
+    <div id="user_title" class="col-lg-3 col-sm-12">
+        <div id="user_title_content">
+
+        </div>
+        <nav id="user_pagination">
+            <ul class="pagination">
+                <li data-page="-1"><a href="#" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
+                </li>
+                <li data-page="+1"><a href="#" aria-label="Next"><span aria-hidden="true">&raquo;</span> </a></li>
+            </ul>
+        </nav>
+    </div>
+    <div class="col-lg-9  col-sm-12">
+        <form class="form-horizontal" action="/user_manage?action=update" method="post">
+            <fieldset>
+                <div>
+                    <legend>用户修改
+                        <button class="btn btn-default" onclick="addNewUser()" type="button">新增用户
+                        </button>
+                    </legend>
+                </div>
+            </fieldset>
+            <div class="control-group">
+                <div class="col-lg-3 col-lg-offset-3 col-sm-12">用户编号</div>
+                <div class="controls col-lg-6 col-sm-12">
+                    <input id="user_id" type="number" readonly name="id" class="input-xlarge">
+                </div>
+            </div>
+            <div class="control-group">
+                <div class="col-lg-3 col-lg-offset-3  col-sm-12">用户姓名</div>
+                <div class="controls col-lg-6 col-sm-12">
+                    <input id="user_display_name" type="text" name="display_name" class="input-xlarge">
+                </div>
+            </div>
+            <div class="control-group">
+                <div class="col-lg-3 col-lg-offset-3  col-sm-12">用户登录名</div>
+                <div class="controls col-lg-6 col-sm-12">
+                    <input type="text" id="user_name" readonly name="name" class="input-xlarge">
+                </div>
+            </div>
+            <div class="control-group">
+                <div class="col-lg-3 col-lg-offset-3 col-sm-12">用户密码</div>
+                <div class="controls col-lg-6 col-sm-12">
+                    <input type="text" id="user_pwd" name="pwd" class="input-xlarge">
+                </div>
+            </div>
+            <div class="control-group">
+                <div class="controls col-lg-6 col-sm-6 text-right">
+                    <button type="submit" class="btn btn-success">提交</button>
+                </div>
+                <div class="controls col-lg-6 col-sm-6 text-left">
+                    <button type="reset" class="btn btn-success">重置</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
