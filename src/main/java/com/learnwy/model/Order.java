@@ -32,4 +32,10 @@ public class Order {
     public void setTableNo(long table_no) {
         this.table_no = table_no;
     }
+
+    public Order(long order_id, Date create_date, long table_no) {
+        this.order_id = order_id;
+        this.create_date = create_date;
+        this.table_no = table_no;
+    }
 }

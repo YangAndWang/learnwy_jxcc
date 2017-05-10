@@ -42,4 +42,11 @@ public class Food {
     public void setFoodImgPath(String food_img_path) {
         this.food_img_path = food_img_path;
     }
+
+    public Food(long food_id, String food_name, BigDecimal food_price, String food_img_path) {
+        this.food_id = food_id;
+        this.food_name = food_name;
+        this.food_price = food_price;
+        this.food_img_path = food_img_path;
+    }
 }

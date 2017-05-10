@@ -6,9 +6,6 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%
-    System.out.print("Login.jsp");
-%>
 <html>
 <head>
     <title>登录</title>

@@ -241,7 +241,15 @@ public class MySQL {
                 break;
             case "INT":
                 ret = "long";
+                break;
+            case "DECIMAL":
+                ret = "BigDecimal";
+                break;
+            case "TIMESTAMP":
+                ret = "Date";
+                break;
             default:
+                ret = "unknow";
                 break;
         }
         return ret;
