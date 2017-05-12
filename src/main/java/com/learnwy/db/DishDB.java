@@ -10,12 +10,12 @@ import java.util.List;
 public class DishDB {
     public static List<Dish> getAllDishs() {
         LinkedList<Dish> ret = new LinkedList<Dish>();
-        String sql = " select dish_id,dish_name,dish_price,dish_img_path  from `dish`";
+        String sql = " select dish_id,dish_name,dish_price,dish_img_path,dish_discount  from `dish`";
         ResultSet rs = MySQL.excuteSQL(sql);
         Dish dish = null;
         try {
             while (rs.next()) {
-                dish = new Dish(rs.getLong(1), rs.getString(2), rs.getBigDecimal(3), rs.getString(4));
+                dish = new Dish(rs.getLong(1), rs.getString(2), rs.getBigDecimal(3), rs.getString(4), rs.getBigDecimal(5));
                 ret.add(dish);
             }
         } catch (Exception ex) {
@@ -42,7 +42,7 @@ public class DishDB {
     }
 
     public static int addDish(Dish dish) {
-        String sql = "insert into `dish`(dish_name,dish_price,dish_img_path)values(" + "'" + dish.getDishName() + "'" + "," + dish.getDishPrice().toString() + "," + "'" + dish.getDishImgPath() + "'" + ")";
+        String sql = "insert into `dish`(dish_name,dish_price,dish_img_path,dish_discount)values(" + "'" + dish.getDishName() + "'" + "," + dish.getDishPrice().toString() + "," + "'" + dish.getDishImgPath() + "'" + "," + dish.getDishDiscount().toString() + ")";
         int ret = MySQL.updateSQL(sql);
         return ret;
     }
@@ -53,7 +53,7 @@ public class DishDB {
         } else if (dish.getDishId() == -1) {
             return addDish(dish);
         }
-        String sql = "update `dish` set " + "dish_name = '" + dish.getDishName() + "'" + "," + "dish_price = " + dish.getDishPrice().toString() + "," + "dish_img_path = '" + dish.getDishImgPath() + "'" + " where dish_id = " + dish.getDishId();
+        String sql = "update `dish` set " + "dish_name = '" + dish.getDishName() + "'" + "," + "dish_price = " + dish.getDishPrice().toString() + "," + "dish_img_path = '" + dish.getDishImgPath() + "'" + "," + "dish_discount = " + dish.getDishDiscount().toString() + " where dish_id = " + dish.getDishId();
         return MySQL.updateSQL(sql);
     }
 }

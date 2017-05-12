@@ -24,14 +24,14 @@ public class MenuTreeJson {
 
     public static String getSysMenuJson(Node tree, StringBuffer sb) {
         SysMenu s = tree.data;
-        sb.append("[");
+        sb.append("[ ");
         sb.append(s.getSysMenuId()).append(",\"");
         sb.append(s.getDisplayName()).append("\",\"");
         sb.append(s.getPath()).append("\",");
         sb.append(s.getParentId());
         if (tree.children.size() > 0) {
             sb.append(",");
-            sb.append("[");
+            sb.append("[ ");
             for (Node n : tree.children) {
                 getSysMenuJson(n, sb);
                 sb.append(",");

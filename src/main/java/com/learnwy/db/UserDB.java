@@ -27,7 +27,7 @@ public class UserDB {
 
     public static List<User> getUsers() {
         LinkedList<User> ret = new LinkedList<User>();
-        String sql = "select user_id,user_name,user_pwd,display_name from user";
+        String sql = "select distinct user_id,user_name,user_pwd,display_name from user";
         ResultSet rs = MySQL.excuteSQL(sql);
         User user = null;
         try {
@@ -91,7 +91,7 @@ public class UserDB {
     }
 
     public static User getUserById(long id) {
-        String sql = "select user_id,user_name,user_pwd,display_name from user where user_id = " + id;
+        String sql = "select distinct user_id,user_name,user_pwd,display_name from user where user_id = " + id;
         ResultSet rs = MySQL.excuteSQL(sql);
         User user = null;
         try {
@@ -106,7 +106,7 @@ public class UserDB {
     }
 
     public static User getUserByName(String name) {
-        String sql = "select user_id,user_name,user_pwd,display_name from user where user_name = '" + name + "'";
+        String sql = "select distinct user_id,user_name,user_pwd,display_name from user where user_name = '" + name + "'";
         ResultSet rs = MySQL.excuteSQL(sql);
         User user = null;
         try {
@@ -121,7 +121,7 @@ public class UserDB {
     }
 
     public static boolean getUserByLogin(User user) {
-        String sql = "select  user_id,user_name,user_pwd,display_name from user where user_name = '" + user.getUserName() + "' and user_pwd = '" + user.getUserPwd() + "'";
+        String sql = "select distinct user_id,user_name,user_pwd,display_name from user where user_name = '" + user.getUserName() + "' and user_pwd = '" + user.getUserPwd() + "'";
         ResultSet rs = MySQL.excuteSQL(sql);
 
         try {

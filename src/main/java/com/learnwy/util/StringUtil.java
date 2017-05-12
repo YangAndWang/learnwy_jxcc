@@ -8,6 +8,7 @@ public class StringUtil {
     public final static String update = "update";
     public final static String add = "add";
     public final static String del = "del";
+    public final static String query = "query";
 
     public static boolean empty(String s) {
         return Empty.equals(s);
@@ -33,7 +34,7 @@ public class StringUtil {
         return s == null || empty(s);
     }
 
-    public static String trimPath汉字(String display_name) {
+    public static String trimPathLangCN(String display_name) {
         if (isNullOrEmpty(display_name)) {
             return Empty;
         }
@@ -42,5 +43,14 @@ public class StringUtil {
 
     public static long parseToLong(String pageS) {
         return isNullOrEmpty(pageS) ? 0 : Long.valueOf(pageS.replaceAll("[\\D]*", ""));
+    }
+
+    public static boolean canParseLong(String dish_name) {
+        for (char c : dish_name.trim().toCharArray()) {
+            if (!Character.isDigit(c)) {
+                return false;
+            }
+        }
+        return true;
     }
 }

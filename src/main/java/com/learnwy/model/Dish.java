@@ -43,10 +43,21 @@ public class Dish {
         this.dish_img_path = dish_img_path;
     }
 
-    public Dish(long dish_id, String dish_name, BigDecimal dish_price, String dish_img_path) {
+    private BigDecimal dish_discount;
+
+    public BigDecimal getDishDiscount() {
+        return this.dish_discount;
+    }
+
+    public void setDishDiscount(BigDecimal dish_discount) {
+        this.dish_discount = dish_discount;
+    }
+
+    public Dish(long dish_id, String dish_name, BigDecimal dish_price, String dish_img_path, BigDecimal dish_discount) {
         this.dish_id = dish_id;
         this.dish_name = dish_name;
         this.dish_price = dish_price;
         this.dish_img_path = dish_img_path;
+        this.dish_discount = dish_discount;
     }
 }

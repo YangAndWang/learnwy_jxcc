@@ -1,31 +1,39 @@
 <div id="power_sys_menu_manage" style="display:none">
-    <div id="power_sys_menu_manage_tree" class="col-lg-3 col-sm-12">
+    <div id="power_sys_menu_manage_title" class="col-lg-3 col-sm-12">
+        <div id="power_sys_menu_title_content">
 
+        </div>
+        <nav id="power_sys_menu_pagination">
+            <ul class="pagination">
+                <li data-page="-1"><a href="#" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
+                </li>
+                <li data-page="+1"><a href="#" aria-label="Next"><span aria-hidden="true">&raquo;</span> </a></li>
+            </ul>
+        </nav>
     </div>
     <div class="col-lg-9  col-sm-12">
-        <form class="form-horizontal" action="/power_sys_menu_manage?action=update" method="post">
-            <fieldset>
-                <div>
-                    <legend>权限菜单管理</legend>
-                </div>
-            </fieldset>
-            <div class="control-group">
-                <div class="col-lg-offset-3 col-lg-3 col-sm-6">权限编号</div>
-                <div class=" col-lg-6 col-sm-6">
-                    <input id="power_sys_menu_power_id" name="power_id">
+        <div class="control-label">
+            权限菜单管理
+            <button class="btn btn-default" onclick="addNewPowerSysMenu();">新增权限菜单</button>
+            <div class="col-lg-12 col-sm-12">
+                <div class="control-box">
+                    <div class="col-lg-2 col-sm-2">
+                        权限编号
+                    </div>
+                    <div class="col-lg-2 col-sm-2">
+                        权限名称
+                    </div>
+                    <div class="col-lg-2 col-sm-2">
+                        菜单编号
+                    </div>
+                    <div class="col-lg-2 col-sm-2">
+                        菜单名称
+                    </div>
                 </div>
             </div>
-            <div class="">
+        </div>
+        <div id="power_sys_menu_connection" class="controls-pane">
 
-            </div>
-            <div class="control-group">
-                <div class="controls col-lg-6 col-sm-6 text-right">
-                    <button type="submit" class="btn btn-success">提交</button>
-                </div>
-                <div class="controls col-lg-6 col-sm-6 text-left">
-                    <button type="reset" class="btn btn-success">重置</button>
-                </div>
-            </div>
-        </form>
+        </div>
     </div>
 </div>

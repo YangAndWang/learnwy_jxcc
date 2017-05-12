@@ -1,0 +1,39 @@
+<div id="user_role_manage" style="display:none">
+    <div id="user_role_manage_title" class="col-lg-3 col-sm-12">
+        <div id="user_role_title_content">
+
+        </div>
+        <nav id="user_role_pagination">
+            <ul class="pagination">
+                <li data-page="-1"><a href="#" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
+                </li>
+                <li data-page="+1"><a href="#" aria-label="Next"><span aria-hidden="true">&raquo;</span> </a></li>
+            </ul>
+        </nav>
+    </div>
+    <div class="col-lg-9  col-sm-12">
+        <div class="control-label">
+            用户角色管理
+            <button class="btn btn-default" onclick="addNewUserRole();">新增用户角色</button>
+            <div class="col-lg-12 col-sm-12">
+                <div class="control-box">
+                    <div class="col-lg-2 col-sm-2">
+                        用户编号
+                    </div>
+                    <div class="col-lg-2 col-sm-2">
+                        用户名称
+                    </div>
+                    <div class="col-lg-2 col-sm-2">
+                        角色编号
+                    </div>
+                    <div class="col-lg-2 col-sm-2">
+                        角色名称
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="user_role_connection" class="controls-pane">
+
+        </div>
+    </div>
+</div>

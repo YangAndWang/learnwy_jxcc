@@ -47,7 +47,7 @@ public class RoleServlet extends HttpServlet {
             String id = request.getParameter("id");
             String display_name = request.getParameter("display_name");
             System.out.println(",disName::" + display_name);
-            display_name = StringUtil.trimPath汉字(display_name);
+            display_name = StringUtil.trimPathLangCN(display_name);
             long _id;
             if (StringUtil.isNullOrEmpty(id)) {
                 _id = -1;

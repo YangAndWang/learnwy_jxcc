@@ -19,6 +19,7 @@ public class UserJson {
             sb.append(u.getDisplayName()).append("\"],");
         }
         sb.setLength(sb.length() - 1);
+
         sb.append("]");
         return sb.toString();
     }

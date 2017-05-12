@@ -12,7 +12,7 @@ import java.util.List;
 public class RoleDB {
     public static List<Role> getRoles() {
         LinkedList<Role> ret = new LinkedList<Role>();
-        String sql = "select display_name ,role_id from role";
+        String sql = "select distinct display_name ,role_id from role";
         ResultSet rs = MySQL.excuteSQL(sql);
         Role role = null;
         try {
@@ -49,7 +49,7 @@ public class RoleDB {
     }
 
     public static Role getRoleById(long id) {
-        String sql = "select display_name ,role_id  from role where role_id = " + id;
+        String sql = "select distinct display_name ,role_id  from role where role_id = " + id;
         ResultSet rs = MySQL.excuteSQL(sql);
         Role role = null;
         try {
@@ -78,7 +78,7 @@ public class RoleDB {
     public static List<Role> getRoles(long page, TranValueClass rows) {
         List<Role> ret = new LinkedList<>();
         String sql = "SELECT count(role_id) from role";
-        String dataSQL = " SELECT role_id, display_name FROM role limit  " + page * 10 + ",10";
+        String dataSQL = " SELECT distinct role_id, display_name FROM role limit  " + page * 10 + ",10";
         try {
             ResultSet rs = MySQL.excuteSQL(sql);
             rs.next();

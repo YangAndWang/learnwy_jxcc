@@ -41,7 +41,7 @@ public class PowerController {
         if (!checkPower(login_user)) {
             return new LinkedList<>();
         }
-        return PowerDB.getRoles(page, rows);
+        return PowerDB.getPowers(page, rows);
     }
 
     public static boolean updateOrAddPower(Power power, User login_user) {

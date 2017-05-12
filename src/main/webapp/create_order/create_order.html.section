@@ -1,0 +1,48 @@
+<div id="create_order" style="display:none">
+    <div id="create_order_title" class="col-lg-3 col-sm-12">
+        <div class="form-control">
+            <div class="col-lg-9 col-sm-12">
+                <input class="form-control" name="dish_name">
+            </div>
+            <div class="col-lg-9 col-sm-12">
+                <button type="button" class="btn btn-default">查找</button>
+            </div>
+        </div>
+        <div id="create_order_title_content">
+
+        </div>
+        <nav id="create_order_pagination">
+            <ul class="pagination">
+                <li data-page="-1"><a href="#" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
+                </li>
+                <li data-page="+1"><a href="#" aria-label="Next"><span aria-hidden="true">&raquo;</span> </a></li>
+            </ul>
+        </nav>
+    </div>
+    <div class="col-lg-9  col-sm-12">
+        <div class="control-label">
+            创建订单
+            <div class="col-lg-12 col-sm-12">
+                <div class="control-box">
+                    <div class="col-lg-3 col-sm-3">
+                        菜编号
+                    </div>
+                    <div class="col-lg-3 col-sm-3">
+                        菜名称
+                    </div>
+                    <div class="col-lg-3 col-sm-3">
+                        菜数量
+                    </div>
+                    <div class="col-lg-3 col-sm-3">
+                        操作
+                    </div>
+                </div>
+            </div>
+        </div>
+        <form class="form-control" action="/create_order?action=add" method="post">
+            <div id="create_order_connection" class="controls-pane">
+
+            </div>
+        </form>
+    </div>
+</div>

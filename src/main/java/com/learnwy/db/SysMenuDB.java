@@ -12,7 +12,7 @@ import java.util.List;
 public class SysMenuDB {
     public static List<SysMenu> getSysMenus() {
         LinkedList<SysMenu> ret = new LinkedList<SysMenu>();
-        String sql = "select sys_menu_id ,display_name ,path ,parent_id from sys_menu";
+        String sql = "select distinct sys_menu_id ,display_name ,path ,parent_id from sys_menu";
         ResultSet rs = MySQL.excuteSQL(sql);
         SysMenu sys_menu = null;
         try {
@@ -59,7 +59,7 @@ public class SysMenuDB {
     }
 
     public static SysMenu getSysMenuById(long id) {
-        String sql = "select sys_menu_id ,display_name ,path ,parent_id  from sys_menu where sys_menu_id = " + id;
+        String sql = "select distinct sys_menu_id ,display_name ,path ,parent_id  from sys_menu where sys_menu_id = " + id;
         ResultSet rs = MySQL.excuteSQL(sql);
         SysMenu sys_menu = null;
         try {
@@ -72,7 +72,8 @@ public class SysMenuDB {
     }
 
     public static List<SysMenu> getSysMenusByPowerIds(long[] powerIds) {
-        String sql = "select s.sys_menu_id,display_name,path,parent_id from sys_menu s,sys_menu_power sp where s.sys_menu_id = sp.sys_menu_id and sp.power_id in (" + StringUtil.join(powerIds, ",") + ")";
+        String sql = "select distinct s.sys_menu_id,display_name,path,parent_id from sys_menu s,sys_menu_power sp where s" +
+                ".sys_menu_id = sp.sys_menu_id and sp.power_id in (" + StringUtil.join(powerIds, ",") + ")";
         ResultSet rs = MySQL.excuteSQL(sql);
         List<SysMenu> ret = new LinkedList<>();
         try {

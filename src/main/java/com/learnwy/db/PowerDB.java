@@ -17,7 +17,7 @@ public class PowerDB {
 
     public static List<Power> getPowers() {
         LinkedList<Power> ret = new LinkedList<Power>();
-        String sql = "select display_name ,power_id from power";
+        String sql = "select distinct display_name ,power_id from power";
         ResultSet rs = MySQL.excuteSQL(sql);
         Power power = null;
         try {
@@ -52,7 +52,7 @@ public class PowerDB {
     }
 
     public static Power getPowerById(long id) {
-        String sql = "select display_name ,power_id  from power where power_id = " + id;
+        String sql = "select distinct display_name ,power_id  from power where power_id = " + id;
         ResultSet rs = MySQL.excuteSQL(sql);
         Power power = null;
         try {
@@ -65,7 +65,8 @@ public class PowerDB {
     }
 
     public static List<Power> getPowersByRoleIds(long[] roleIds) {
-        String sql = "select p.power_id,p.display_name from power p,role_power rp where rp.power_id = p.power_id and rp.role_id in (" + StringUtil.join(roleIds, ",") + ")";
+        String sql = "select distinct p.power_id,p.display_name from power p,role_power rp where rp.power_id = p.power_id and" +
+                " rp.role_id in (" + StringUtil.join(roleIds, ",") + ")";
         ResultSet rs = MySQL.excuteSQL(sql);
         List<Power> ret = new LinkedList<>();
         try {
@@ -78,7 +79,7 @@ public class PowerDB {
         return ret;
     }
 
-    public static List<Power> getRoles(long page, TranValueClass rows) {
+    public static List<Power> getPowers(long page, TranValueClass rows) {
         List<Power> ret = new LinkedList<>();
         String sql = "SELECT count(power_id) from power";
         String dataSQL = " SELECT power_id, display_name FROM power limit  " + page * 10 + ",10";

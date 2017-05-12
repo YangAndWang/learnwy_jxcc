@@ -28,14 +28,19 @@
     <%
         HttpSession httpSession = request.getSession();
         String menu = "";
+        String userName = "";
         User u = null;
         if (!(httpSession == null)) {
             u = (User) httpSession.getAttribute("u");
             if (u == null) {
-                response.sendRedirect("/login.jsp");
-            }
-            List<SysMenu> menus = SysMenuController.getSysMenusByUser(u);
-            menu = MenuTreeJson.getSysMenuJson(menus);
+    %>
+    window.location.href = "/login.jsp";
+    <%
+        } else {
+            userName = u.getDisplayName();
+        }
+        List<SysMenu> menus = SysMenuController.getSysMenusByUser(u);
+        menu = MenuTreeJson.getSysMenuJson(menus);
     %>
 
 
@@ -62,7 +67,7 @@
                     </li>
                     <li class="right">
                         <ul class="nav navbar-nav navbar-right">
-                            <li><a><%= u.getDisplayName() %>
+                            <li><a><%= userName %>
                             </a></li>
                             <li><a class="navbar-link" href="loginout.jsp">注销</a></li>
                             <li><a class="current_time"></a></li>
@@ -74,13 +79,11 @@
     </nav>
 </div>
 <div class="container" id="content">
-
     <%
         for (SysMenu sysMenu : menus) {
     %>
     <%--<%@include file="sys_menu/sys_menu.html.section" %>--%>
     <script src="<%=sysMenu.getPath().replace("_manage","")%>/index.js"></script>
-
     <%
             }
         }
@@ -112,12 +115,6 @@
         current_time();
 
     });
-
-
-    function dealUserRoleManage(data) {
-
-    }
-
 
     //添加菜单
     $(function () {
@@ -177,7 +174,7 @@
         $("#user_menu").find("a[data-path!='#']").click(function (data) {
             var url = $(this).data("path");
             $.ajax($(this).data("path"), {
-                async: false,
+                async: true,
                 data: "",
                 dataType: "json",
                 error: function (e) {
@@ -190,11 +187,15 @@
                     else if (url == "/user_manage") {
                         dealUserManage(data);
                     } else if (url == "/user_role_manage") {
-                        dealUserRoleManage(data);
+                        window['user_role_roles'] = data[1];
+                        dealUserRoleManage(data[0]);
                     } else if (url == "/role_power_manage") {
-                        dealRolePowerManage(data);
+                        window['role_power_powers'] = data[1];
+                        dealRolePowerManage(data[0]);
                     } else if (url == "/power_sys_menu_manage") {
-                        dealPowerSysMenuManage(data);
+                        window['power_sys_menu_menus'] = data[1];
+                        //window['power_sys_menu_powers'] = data[2];
+                        dealPowerSysMenuManage(data[0]);
                     } else if (url == "/role_manage") {
                         dealRoleManage(data);
                     } else if (url == "/power_manage") {
@@ -206,7 +207,5 @@
         });
     });
 </script>
-
-
 </body>
 </html>

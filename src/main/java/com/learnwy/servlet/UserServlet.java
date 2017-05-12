@@ -48,7 +48,7 @@ public class UserServlet extends HttpServlet {
             String name = request.getParameter("name");
             name = StringUtil.trimPath(name);
             pwd = StringUtil.trimPath(pwd);
-            display_name = StringUtil.trimPath汉字(display_name);
+            display_name = StringUtil.trimPathLangCN(display_name);
             long _id;
 
             if (StringUtil.isNullOrEmpty(id)) {

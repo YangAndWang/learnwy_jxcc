@@ -1,7 +1,6 @@
 $(function () {
     $("<script src='/power_sys_menu/power_sys_menu.js'><" + "/script>").appendTo($(document.head));
-
-    $.ajax("/sys_menu/power_sys_menu.html.section", {
+    $.ajax("/power_sys_menu/power_sys_menu.html.section", {
         "dataType": "text",
         "error": function (e) {
             console.log(e);

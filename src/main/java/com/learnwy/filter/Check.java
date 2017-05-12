@@ -23,7 +23,12 @@ public class Check implements Filter {
         Enumeration<String> n = req.getParameterNames();
         String cookieLogin;
         System.out.println(request.getRequestURI());
+        HttpSession httpSession = ((HttpServletRequest) req).getSession();
+
         if (!request.getRequestURI().matches("/login[\\S]*")) {
+            if (httpSession == null || httpSession.getAttribute("u") == null) {
+                ((HttpServletResponse) resp).sendRedirect("/login.jsp");
+            }
             Cookie[] cookies = request.getCookies();
             if (cookies == null || cookies.length < 2) {
                 ((HttpServletResponse) resp).sendRedirect("/login.jsp");
