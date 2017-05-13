@@ -40,10 +40,16 @@ public class SysMenuServlet extends HttpServlet {
             String pid = request.getParameter("pid");
             String path = request.getParameter("path");
             path = StringUtil.trimPath(path);
-            long _id = Long.valueOf(id);
-            long _pid = Long.valueOf(pid);
+            long _id = -1;
+            long _pid = -1;
+            if (StringUtil.canParseLong(id)) {
+                _id = Long.valueOf(id);
+            }
+            if (StringUtil.canParseLong(pid)) {
+                _pid = Long.valueOf(pid);
+            }
             SysMenu sysMenu = new SysMenu(_id, name, path, _pid);
-            boolean isUp = SysMenuController.updateSysMenu(sysMenu, login_user);
+            boolean isUp = SysMenuController.addOrUpdateSysMenu(sysMenu, login_user);
         }
     }
 

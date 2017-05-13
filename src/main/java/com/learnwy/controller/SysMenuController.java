@@ -64,4 +64,15 @@ public class SysMenuController {
         }
         return SysMenuDB.updateSysMenu(sysMenu) > 0;
     }
+
+    public static boolean addOrUpdateSysMenu(SysMenu sysMenu, User login_user) {
+        if (!checkPower(login_user)) {
+            return false;
+        }
+        if (sysMenu.getSysMenuId() == -1) {
+            return SysMenuDB.addSysMenu(sysMenu) > 0;
+        } else {
+            return SysMenuDB.updateSysMenu(sysMenu) > 0;
+        }
+    }
 }

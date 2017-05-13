@@ -15,9 +15,7 @@ import java.util.List;
 public class GenModel {
     public static void main(String[] args) throws Exception {
         //System.out.println(genByTableName("dish"));
-        genMMM("dish");
-        genMMM("food");
-        genMMM("order");
+        genMMM("order_dish");
     }
 
     public static void genMMM(String tableName) throws ClassNotFoundException, IOException, InstantiationException, IllegalAccessException {

@@ -26,7 +26,6 @@ import java.util.List;
 @WebServlet(name = "PowerSysMenuServlet", urlPatterns = {"/power_sys_menu_manage"})
 public class PowerSysMenuServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        //now is use powerManage second I must use power_sys_menu_manage
         HttpSession httpSession = request.getSession();
         User login_user = (User) httpSession.getAttribute("u");
         String action = request.getParameter("action");

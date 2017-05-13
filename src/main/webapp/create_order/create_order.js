@@ -40,20 +40,42 @@
             error: function (e) {
             },
             success: function (data) {
-                dealCreateOrder(data[0]);
+                dealCreateOrder(data);
             },
             type: "POST"
         });
     });
 });
+$(function () {
+    window['create_order_query'] = function () {
+        $.ajax('/create_order', {
+            data: {
+                "dish_name": $("#create_order_title input").val()
+            },
+            dataType: "json",
+            error: function (e) {
+            },
+            success: function (data) {
+                dealCreateOrder(data);
+            },
+            type: "POST"
+        });
+    }
+});
 
 ;window["dealCreateOrder"] = function (data) {
-    var create_order_id;
-    var create_order_display_name;
+    var create_order_dish_id;
+    var create_order_dish_name;
+    var create_order_dish_path;
+    var create_order_dish_price;
+    var create_order_dish_discount;
     var create_orders_html_s = [];
-    var create_order_html = ['<li class="list-group-item" data-create_order_id='
-        , create_order_id, ' data-create_order_display_name="', create_order_display_name, '">', create_order_display_name, '<', '/li>'];
-    var create_order_html = ['<ul class="list-group">', create_orders_html_s, '<', '/ul>']
+    var create_order_html = ['<li class="list-group-item" data-create_order_dish_id='
+        , create_order_dish_id, ' data-create_order_dish_name="', create_order_dish_name, '"' +
+        ' data-create_order_dish_path="', create_order_dish_path, '"' +
+        ' data-create_order_dish_price=', create_order_dish_price, '' +
+        ' data-create_order_dish_discount=', create_order_dish_discount, '>', create_order_dish_name, '<', '/li>'];
+    var create_order_manage_html = ['<ul class="list-group">', create_orders_html_s, '<', '/ul>']
     var i = 0;
     var detail = data;
     var pages = $("#create_order_pagination");
@@ -67,7 +89,7 @@
             '/span> <', '/a><',
             '/li> <', '/ul>'];
     var i = 0;
-    if ((detail[0] / 10 + 1) != (pageList.length - 2 )) {
+    if ((detail[0] / 10 ) > (pageList.length - 2 )) {
         var activePage = pages.find("li.active");
         var page = activePage.length == 1 ? ((+activePage.data("page")) ) : 0;
         pageIndexs = [];
@@ -88,110 +110,74 @@
     for (i = 0; i < data.length; i++) {
         create_order_html[1] = data[i][0];
         create_order_html[3] = data[i][1];
-        create_order_html[5] = data[i][1];
+        create_order_html[5] = data[i][2];
+        create_order_html[7] = data[i][3];
+        create_order_html[9] = data[i][4];
+        create_order_html[11] = data[i][1];
         create_orders_html_s.push(create_order_html.join(''));
     }
     create_orders_html_s = create_orders_html_s.join('');
-    $('#create_order_title_content').html(create_order_html.join(''));
+    $('#create_order_title_content').html(create_order_manage_html.join(''));
     var create_order_eles = $('#create_order_title_content li');
     create_order_eles.on('click', function (e) {
         var _this = $(this);
         create_order_eles.removeClass("node-selected");
         _this.addClass("node-selected");
-        window["create_order_init"].call(this, _this.data("create_order_id"), _this.data("create_order_display_name"));
+        window["create_order_init"].call(this, _this.data("create_order_dish_id"),
+            _this.data("create_order_dish_name"), _this.data("create_order_dish_path"), _this.data("create_order_dish_price"), _this.data("create_order_dish_discount"));
     });
     hideAllContent();
     $("#create_order").show();
 };
-
-/**
- * 左边主表数据点击事件,初始化右边从表数据
- * 在这里是添加一个菜
- * @param data
- */
-window["create_order_init"] = function (role_id, display_name) {
-    // $.ajax('/create_order?action=query', {
-    //     data: {
-    //         "id": role_id
-    //     },
-    //     dataType: "json",
-    //     error: function (e) {
-    //     },
-    //     success: function (data) {
-    //         dealCreateOrderConnection(data, role_id, display_name);
-    //     },
-    //     type: "POST"
-    // });
-};
 $(function () {
-    var power_role_temp = '<form class="form-group" action="/create_order?action=del" method="post">' +
-        '<div class="control-box"> ' +
-        ' <div class="col-lg-2 col-sm-2"> <input type="text" name="role_id" readonly> </div>' +
-        ' <div class="col-lg-2 col-sm-2"> <input type="text" name="role_display_name" disabled> </div>' +
-        ' <div class="col-lg-2 col-sm-2"> <input type="text" name="power_id" readonly> </div>' +
-        ' <div class="col-lg-2 col-sm-2"> <input type="text" name="power_display_name" disabled></div>' +
-        ' <div class="col-lg-4 col-sm-4 text-center"> <button type="submit" class="btn' +
-        ' btn-danger">删除</button> </div>' +
-        '</div>' +
-        '</form>';
-    var power_add;
-    window['dealRolePowerConnection'] = function (data, role_id, display_name) {
-        var _role_id = data[0];
-        var create_orders = data[1];
-        var $sys;
-        var inputs
-        var i = 0;
-        var connection = $("#create_order_connection");
-        connection.children().remove();
-        for (i = 0; i < create_orders.length; i++) {
-            $sys = $(power_role_temp);
-            inputs = $sys.find("input");
-            inputs.get(0).value = _role_id == role_id ? role_id : _role_id;
-            inputs.get(1).value = display_name;
-            inputs.get(2).value = create_orders[i][0];
-            inputs.get(3).value = create_orders[i][1];
-            connection.append($sys);
+    var dish_detail_temp;
+    /**
+     * 左边主表数据点击事件,初始化右边从表数据
+     * 在这里是添加一个菜
+     * @param data
+     */
+    window["create_order_init"] = function (dish_id, dish_name, dish_path, dish_price, dish_discount) {
+        dish_detail_temp = dish_detail_temp || [' <div class="form-group">' +
+            ' <div class="col-lg-2 col-sm-2">' +
+            ' <input type="number" name="dish_id" value=', dish_id, ' readonly>' +
+            ' </div>' +
+            ' <div class="col-lg-2 col-sm-2">' +
+            ' <input type="text" name="dish_name" value=', dish_name, ' readonly>' +
+            ' </div>' +
+            ' <div class="col-lg-2 col-sm-2">' +
+            ' <input type="number" name="dish_price" value=', dish_price, '>' +
+            ' </div>' +
+            ' <div class="col-lg-2 col-sm-2">' +
+            ' <input type="number" name="dish_count" value=1>' +
+            ' </div>' +
+            ' <div class="col-lg-4 col-sm-4">' +
+            ' <button class="btn btn-danger" onclick="deleteGrandParent(this);">删除</button>' +
+            ' </div>' +
+            ' </div>'];
+        var hasAdded = false;
+        $("#create_order_connection input[name='dish_id']").each(function (i, o) {
+            var dish_count_ele;
+            if (o.value == dish_id) {
+                dish_count_ele = $(o).parent().parent().find("input[name='dish_count']");
+                dish_count_ele.val(+dish_count_ele.val() + 1);
+                hasAdded = true;
+            }
+        });
+        if (hasAdded) {
+            return;
         }
+        dish_detail_temp[1] = dish_id;
+        dish_detail_temp[3] = dish_name;
+        dish_detail_temp[5] = (+dish_price) * (1 - (+dish_discount));
+        $(dish_detail_temp.join('')).insertBefore($("#create_order_connection > div").get(0));
     };
-    window['addNewRolePower'] = function () {
-        window['select_create_order_powers'] = function ($select) {
-            var _this = $($select);
-            var power_id = +_this.val().split('_wy_')[0];
-            _this.parent().parent().find('input[name="power_id"]').val(power_id);
-        }
-        power_add = power_add || '<form class="form-group" action="/create_order?action=add"' +
-            ' method="post">' +
-            '<div class="control-box"> ' +
-            ' <div class="col-lg-2 col-sm-2"> <input class="form-control" type="text" name="role_id" readonly> </div>' +
-            ' <div class="col-lg-2 col-sm-2"> <input class="form-control"  type="text" name="role_display_name" readonly> </div>' +
-            ' <div class="col-lg-2 col-sm-2"> ' +
-            '   <select class="form-control" onchange="select_create_order_powers(this);" name="power_display_name">' +
-            create_order_powers.reduce(function (pre, next) {
-                pre.push('<option value="' + next[0] + '_wy_' + next[1] + '">' + next[1] + '</option>');
-                return power_add;
-            }, power_add = []).join('') +
-            ' </select> </div>' +
-            ' <div class="col-lg-2 col-sm-2"> <input class="form-control"  type="text" name="power_id" readonly></div>' +
-            ' <div class="col-lg-4 col-sm-4 text-center"> <button type="submit" class="btn' +
-            ' btn-default">新增</button> </div>' +
-            '</div>' +
-            '</form>';
-        var pages = $("#create_order_title_content");
-        var activePage = pages.find("li.node-selected");
-        var $sys;
-        var inputs;
-        var role_id;
-        var role_display_name;
-        if (activePage.length == 1) {
-            $sys = $(power_add);
-            inputs = $sys.find("input");
-            role_id = +activePage.data('create_order_id');
-            role_display_name = activePage.data('create_order_display_name');
-            inputs.get(0).value = role_id;
-            inputs.get(1).value = role_display_name;
-            inputs.get(2).value = create_order_powers[0][0];
-            $("#create_order_connection").append($sys);
-        }
-    };
+})
+$(function () {
+    window['deleteGrandParent'] = function (_this) {
+        $(_this).parent().parent().remove();
+    }
+    window['create_order_removeAddDish'] = function () {
+        $("#create_order_connection .btn-danger").parent().parent().remove();
+    }
 });
 

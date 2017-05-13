@@ -9,6 +9,7 @@ public class StringUtil {
     public final static String add = "add";
     public final static String del = "del";
     public final static String query = "query";
+    public final static String errPageUrlNoTableNo = "/index.jsp";
 
     public static boolean empty(String s) {
         return Empty.equals(s);
@@ -46,6 +47,9 @@ public class StringUtil {
     }
 
     public static boolean canParseLong(String dish_name) {
+        if (isNullOrEmpty(dish_name)) {
+            return false;
+        }
         for (char c : dish_name.trim().toCharArray()) {
             if (!Character.isDigit(c)) {
                 return false;

@@ -54,7 +54,7 @@ public class SysMenuDB {
 
     public static int addSysMenu(SysMenu sys_menu) {
         String sql = "insert into sys_menu(display_name ,path ,parent_id )values( '" + sys_menu.getDisplayName() + "','"
-                + sys_menu.getPath() + "','" + sys_menu.getParentId() + "'";
+                + sys_menu.getPath() + "'," + sys_menu.getParentId() + ")";
         return MySQL.updateSQL(sql);
     }
 

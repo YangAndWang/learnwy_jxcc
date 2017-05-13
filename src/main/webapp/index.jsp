@@ -200,6 +200,8 @@
                         dealRoleManage(data);
                     } else if (url == "/power_manage") {
                         dealPowerManage(data);
+                    } else if(url == "/create_order"){
+                        dealCreateOrder(data);
                     }
                 },
                 type: "POST"

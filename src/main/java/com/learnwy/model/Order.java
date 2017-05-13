@@ -33,9 +33,22 @@ public class Order {
         this.table_no = table_no;
     }
 
+    private long state;
+
+    public Order() {
+    }
+
     public Order(long order_id, Date create_date, long table_no) {
         this.order_id = order_id;
         this.create_date = create_date;
         this.table_no = table_no;
+    }
+
+    public long getState() {
+        return state;
+    }
+
+    public void setState(long state) {
+        this.state = state;
     }
 }

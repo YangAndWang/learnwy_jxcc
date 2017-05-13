@@ -10,9 +10,7 @@ import java.util.LinkedList;
 public class GenDB {
 
     public static void main(String[] args) throws IllegalAccessException, InstantiationException, ClassNotFoundException, IOException {
-        genMMM("food");
-        genMMM("dish");
-        genMMM("order");
+        genMMM("order_dish");
     }
 
     public static void genMMM(String tableName) throws ClassNotFoundException, IOException, InstantiationException, IllegalAccessException {

@@ -39,8 +39,15 @@
 }
 ;window["sys_menu_init"] = function (sys_menu_id, sys_menu_name, sys_menu_path, sys_menu_pid) {
     //console.log(sys_menu_id, sys_menu_name, sys_menu_path, sys_menu_pid);
+    $("#sys_menu_name").attr('readonly');
+    $("#sys_menu_path").attr('readonly');
     $("#sys_menu_id").val(sys_menu_id);
     $("#sys_menu_name").val(sys_menu_name);
     $("#sys_menu_path").val(sys_menu_path);
     $("#sys_menu_pid").val(sys_menu_pid);
+};
+window['addNewSysMenu'] = function () {
+    $("#sys_menu_id").val(-1)
+    $("#sys_menu_name").removeAttr('readonly');
+    $("#sys_menu_path").removeAttr('readonly');
 };

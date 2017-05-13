@@ -7,6 +7,7 @@
             <fieldset>
                 <div>
                     <legend>菜单管理</legend>
+                    <button type="button" onclick="addNewSysMenu();">添加新菜单</button>
                 </div>
             </fieldset>
             <div class="control-group">
