@@ -20,7 +20,8 @@
         </nav>
     </div>
     <div class="col-lg-9  col-sm-12">
-        <form class="form-horizontal" action="/create_order?action=add" method="post">
+        <form class="form-horizontal" onsubmit="beforeCreateOrderSubmit()" action="/create_order?action=add"
+              method="post">
             <div class="form-group text-center">
                 创建订单:餐桌号
                 <input type="number" name="table_no">

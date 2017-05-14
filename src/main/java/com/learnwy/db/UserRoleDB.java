@@ -68,4 +68,18 @@ public class UserRoleDB {
         String sql = "insert into user_role(`user_id` ,`role_id` )values(  " + user_id + " , " + role_id + " )";
         return MySQL.updateSQL(sql);
     }
+
+    public static long getRoleIdById(long userId) {
+        String sql = "select role_id from user_role where user_id = " + userId;
+        ResultSet rs = MySQL.excuteSQL(sql);
+        long ret = -1;
+        try {
+            if (rs.next()) {
+                ret = rs.getLong(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return ret;
+    }
 }

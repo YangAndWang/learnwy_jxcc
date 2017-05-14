@@ -31,17 +31,13 @@ public class RoleServlet extends HttpServlet {
             long page = pageS == null ? 0 : StringUtil.parseToLong(pageS);
             TranValueClass rows = new TranValueClass(new Long(0));
             List<Role> listRole = RoleController.getAllRole(login_user, page, rows);
-            if (listRole.size() > 0) {
-                response.setContentType("JSON");
-                PrintWriter pw = response.getWriter();
-                pw.write("[" + rows.getValue().toString() + ",");
-                pw.write(RoleJson.ListToJson(listRole));
-                pw.write("]");
-                pw.flush();
-                pw.close();
-            } else {
-                response.setStatus(403);
-            }
+            response.setContentType("JSON");
+            PrintWriter pw = response.getWriter();
+            pw.write("[" + rows.getValue().toString() + ",");
+            pw.write(RoleJson.ListToJson(listRole));
+            pw.write("]");
+            pw.flush();
+            pw.close();
         } else if (StringUtil.update.equals(action)) {
             //now is only can update
             String id = request.getParameter("id");

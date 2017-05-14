@@ -9,6 +9,9 @@ public class StringUtil {
     public final static String add = "add";
     public final static String del = "del";
     public final static String query = "query";
+    public final static String complete = "complete";
+    public final static String order = "order";
+
     public final static String errPageUrlNoTableNo = "/index.jsp";
 
     public static boolean empty(String s) {

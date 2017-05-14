@@ -36,18 +36,14 @@ public class OrderServlet extends HttpServlet {
             long page = pageS == null ? 0 : StringUtil.parseToLong(pageS);
             TranValueClass rows = new TranValueClass(new Long(0));
             List<Order> listOrder = OrderController.getAllNoCompleteOrder(login_user, page, rows);
-            if (listOrder.size() > 0) {
-                response.setContentType("JSON");
-                PrintWriter pw = response.getWriter();
-                pw.write("[");
-                pw.write(rows.getValue().toString() + ",");
-                pw.write(OrderJson.ListToJson1(listOrder));
-                pw.write("]");
-                pw.flush();
-                pw.close();
-            } else {
-                response.setStatus(403);
-            }
+            response.setContentType("JSON");
+            PrintWriter pw = response.getWriter();
+            pw.write("[");
+            pw.write(rows.getValue().toString() + ",");
+            pw.write(OrderJson.ListToJson1(listOrder));
+            pw.write("]");
+            pw.flush();
+            pw.close();
         } else if (StringUtil.query.equals(action)) {
             String id = request.getParameter("id");
             long _id;
@@ -65,6 +61,18 @@ public class OrderServlet extends HttpServlet {
             pw.write("]");
             pw.flush();
             pw.close();
+        } else if (StringUtil.del.equals(action)) {
+            String order_id = request.getParameter("order_id");
+            String dish_id = request.getParameter("dish_id");
+            long _order_id = -1;
+            long _dish_id = -1;
+            if (StringUtil.canParseLong(dish_id)) {
+                _dish_id = Long.valueOf(dish_id);
+            }
+            if (StringUtil.canParseLong(order_id)) {
+                _order_id = Long.valueOf(order_id);
+            }
+            boolean isCompleteOk = OrderController.completeDish(login_user, _order_id, _dish_id);
         }
         response.sendRedirect("/index.jsp");
     }

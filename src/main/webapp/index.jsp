@@ -25,6 +25,7 @@
     <script src="/js/jquery/jquery-3.2.1.js"></script>
     <script src="js/bootstrap/js/bootstrap.js"></script>
     <script src="js/bootstrap/js/bootstrap-treeview.js"></script>
+    <script src="js/jquery/js.cookie.js"></script>
     <%
         HttpSession httpSession = request.getSession();
         String menu = "";
@@ -200,8 +201,10 @@
                         dealRoleManage(data);
                     } else if (url == "/power_manage") {
                         dealPowerManage(data);
-                    } else if(url == "/create_order"){
+                    } else if (url == "/create_order") {
                         dealCreateOrder(data);
+                    } else if (url == "/order_manage") {
+                        dealOrderManage(data);
                     }
                 },
                 type: "POST"
@@ -209,5 +212,56 @@
         });
     });
 </script>
+<script>
+    var webSocket = null;
+    if (WebSocket != undefined) {
+        webSocket = new WebSocket("ws://localhost:8080/webSocket");
+        webSocket.onopen = function (event) {
+            webSocket.send("id:" + Cookies.get("id"));
+        }
+        webSocket.onmessage = function (event) {
+            /**
+             * data has 2 class ,one is order: ,other is complete:
+             */
+            var msg = event.data;
+            var messageBox = $("#messageBox");
+            if (msg == 'order:') {
+                //dealt by chushi
+                messageBox.find("h4").text("新订单来了");
+                messageBox.find("p").text("请查看订单&hellip;");
+                messageBox.modal('show');
+            } else if (msg == 'complete:') {
+                //dealt by fwy
+                messageBox.find("h4").text("菜炒好了");
+                messageBox.find("p").text("请上菜");
+                messageBox.modal('show');
+            }
+        }
+        webSocket.onclose = function (event) {
+
+        }
+        //监听窗口关闭事件，当窗口关闭时，主动去关闭websocket连接，防止连接还没断开就关闭窗口，server端会抛异常。
+        window.onbeforeunload = function () {
+            webSocket.close();
+        }
+    }
+</script>
+<div class="modal fade" id="messageBox" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">新订单来了</h4>
+            </div>
+            <div class="modal-body">
+                <p>请查看订单&hellip;</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 </html>

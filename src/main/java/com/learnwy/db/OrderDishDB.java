@@ -6,6 +6,7 @@ import com.learnwy.model.OrderDishDetail;
 
 import java.math.BigDecimal;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -87,11 +88,47 @@ public class OrderDishDB {
         return 0;
     }
 
+    /**
+     * order.state 是订单状态 1是服务员填写,2是客户自己选择并付款的,4是服务员选择并且付款的(认为吃完结算),8是已经完成的订单,0001 0010 0100,1000
+     *
+     * @param id
+     * @return
+     */
     public static List<OrderDishDetail> getDetailOrderDishs(long id) {
         List<OrderDishDetail> ret = new LinkedList<>();
-        String sql = "SELECT o.order_id, o.table_no, d.dish_name, od.nums FROM `order` o, order_dish od, dish d WHERE" +
-                " o.order_id = od.order_id AND od.dish_id = d.dish_id AND o.state = 1 AND o.order_id = " + id;
-
+        String sql = "SELECT distinct d.dish_name, od.nums,d.dish_id,od.state FROM `order` o, order_dish od, dish d " +
+                "WHERE" +
+                " o.order_id = od.order_id AND od.dish_id = d.dish_id AND o.state in (1,2) AND o.order_id = " + id;
+        ResultSet rs = MySQL.excuteSQL(sql);
+        try {
+            while (rs.next()) {
+                ret.add(new OrderDishDetail(rs.getString(1), rs.getLong(2), rs.getLong(3), rs.getLong(4)));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return ret;
+    }
+
+    /**
+     * order_dish.state 是当前菜的状态 1未做,2做完,####4已上菜
+     *
+     * @param order_id
+     * @param dish_id
+     * @return
+     */
+    public static int updateDishState(long order_id, long dish_id) {
+        String sql = "update order_dish set state = CASE (state) WHEN 2 THEN 4 ELSE 2 END where order_id = " + order_id + " and dish_id = " + dish_id;
+        return MySQL.updateSQL(sql);
+    }
+
+    public static int updateDishState4(long order_id, long dish_id) {
+        String sql = "update order_dish set state = 4 where order_id = " + order_id + " and dish_id = " + dish_id;
+        return MySQL.updateSQL(sql);
+    }
+
+    public static int updateDishState2(long order_id, long dish_id) {
+        String sql = "update order_dish set state = 2 where order_id = " + order_id + " and dish_id = " + dish_id;
+        return MySQL.updateSQL(sql);
     }
 }

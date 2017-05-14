@@ -31,17 +31,13 @@ public class PowerServlet extends HttpServlet {
             long page = pageS == null ? 0 : StringUtil.parseToLong(pageS);
             TranValueClass rows = new TranValueClass(new Long(0));
             List<Power> listPower = PowerController.getAllPower(login_user, page, rows);
-            if (listPower.size() > 0) {
-                response.setContentType("JSON");
-                PrintWriter pw = response.getWriter();
-                pw.write("[" + rows.getValue().toString() + ",");
-                pw.write(PowerJson.ListToJson(listPower));
-                pw.write("]");
-                pw.flush();
-                pw.close();
-            } else {
-                response.setStatus(403);
-            }
+            response.setContentType("JSON");
+            PrintWriter pw = response.getWriter();
+            pw.write("[" + rows.getValue().toString() + ",");
+            pw.write(PowerJson.ListToJson(listPower));
+            pw.write("]");
+            pw.flush();
+            pw.close();
         } else if (StringUtil.update.equals(action)) {
             //now is only can update
             String id = request.getParameter("id");

@@ -1,6 +1,7 @@
 package com.learnwy.servlet;
 
 
+import com.learnwy.controller.WebSocketController;
 import com.learnwy.model.SysMenu;
 
 import javax.servlet.http.HttpSession;
@@ -19,39 +20,68 @@ public class WebSocketWY {
     private static CopyOnWriteArraySet<WebSocketWY> webSocketSet = new CopyOnWriteArraySet<WebSocketWY>();
     private Session session;
     private long user_id;
+    // id is user login
+    // order is order dish,and cook need to cook and complete is need fwy to tran dish
     private static Pattern login_id = Pattern.compile("id:([\\d]*)");
+    private static Pattern order_id = Pattern.compile("order:");
+    private static Pattern complete_id = Pattern.compile("complete:");
     private static String complete_order = "order:";
+    //now just decide there only need two role needed to
+    //服务员
+    private static CopyOnWriteArraySet<WebSocketWY> fwy = new CopyOnWriteArraySet<>();
+    //厨师
+    private static CopyOnWriteArraySet<WebSocketWY> cs = new CopyOnWriteArraySet<>();
 
     @OnOpen
     public void onOpen(Session session) {
         this.session = session;
         webSocketSet.add(this);
-        onLineCount++;
         System.out.println("onOpen::WebSocket");
     }
 
     @OnClose
     public void onClose() {
         webSocketSet.remove(this);
-        onLineCount--;
+        fwy.remove(this);
+        cs.remove(this);
         System.out.println("onClode::WebSocket");
     }
 
     //recivce client Message
     @OnMessage
     public void onMessage(String message, Session session) {
-        Matcher matcher = login_id.matcher(message);
-        if (matcher.find()) {
-            this.user_id = Long.valueOf(matcher.group(0));
+        System.out.printf("\nThe WebSocket Server Receive Message:%s", message);
+        Matcher login = login_id.matcher(message);
+        Matcher order = order_id.matcher(message);
+        Matcher complete = complete_id.matcher(message);
+        // 发过来用户的id来确定各自的权限以及需要通知的东西
+        if (login.find()) {
+            this.user_id = Long.valueOf(login.group(1));
+            if (user_id != -1) {
+                boolean isRemoved = webSocketSet.remove(this);
+                if (isRemoved) {
+                    long role_id = WebSocketController.checkPower(user_id);
+                    if (role_id == 33) {
+                        fwy.add(this);
+                    } else if (role_id == 32) {
+                        cs.add(this);
+                    } else {
+                    }
+                }
+            }
             return;
         }
-
-
-        //sendMessageToOther
-        for (WebSocketWY webSocketWY : webSocketSet) {
-            if (webSocketWY != this) {
-                webSocketWY.sendMessage(message);
+        if (order.find()) {
+            for (WebSocketWY webSocketWY : cs) {
+                webSocketWY.sendMessage("order:");
             }
+            return;
+        }
+        if (complete.find()) {
+            for (WebSocketWY webSocketWY : fwy) {
+                webSocketWY.sendMessage("complete:");
+            }
+            return;
         }
     }
 

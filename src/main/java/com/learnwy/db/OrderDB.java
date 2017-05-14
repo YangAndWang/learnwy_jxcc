@@ -72,7 +72,7 @@ public class OrderDB {
         String getSql = "select `order_id` from `order` order by order_id desc limit 0,1";
         Connection conn = null;
         while (conn == null) {
-            conn = MySQL.getConnection();
+            conn = MySQL.getNewConnection();
         }
         PreparedStatement preparedStatement;
         try {
@@ -96,10 +96,14 @@ public class OrderDB {
         return ret;
     }
 
-    public static List<Order> getgetAllNoCompleteOrder(long page, TranValueClass rows) {
+    public static List<Order> getAllNoCompleteOrder(long page, TranValueClass rows) {
         List<Order> ret = new LinkedList<>();
         String sql = "SELECT count(order_id) from `order` where state = 1 ";
-        String dataSQL = " SELECT order_id,create_date FROM `order` where state = 1 limit  " + page * 10 + ",10";
+        String dataSQL = " SELECT order_id,create_date,table_no,state FROM `order` where state in (1,2,4) order by " +
+                "create_date desc" +
+                " " +
+                "limit" +
+                "  " + page * 10 + ",10";
         try {
             ResultSet rs = MySQL.excuteSQL(sql);
             rs.next();
@@ -110,6 +114,8 @@ public class OrderDB {
                 order = new Order();
                 order.setOrderId(rs.getLong(1));
                 order.setCreateDate(rs.getDate(2));
+                order.setState(rs.getLong(3));
+                order.setTableNo(rs.getLong(4));
                 ret.add(order);
             }
         } catch (SQLException e) {

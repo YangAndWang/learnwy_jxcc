@@ -36,21 +36,17 @@ public class UserRoleServlet extends HttpServlet {
             List<User> listUser = UserRoleController.getAllUser(login_user, page, rows);
             //List<User> users =UserRoleController.getAllUser(login_user);
             List<Role> roles = UserRoleController.getAllRole(login_user);
-            if (listUser.size() > 0) {
-                response.setContentType("JSON");
-                PrintWriter pw = response.getWriter();
-                pw.write("[");
-                pw.write("[" + rows.getValue().toString() + ",");
-                pw.write(UserJson.ListToJson(listUser));
-                pw.write("]");
-                pw.write(",");
-                pw.write(RoleJson.ListToJson(roles));
-                pw.write("]");
-                pw.flush();
-                pw.close();
-            } else {
-                response.setStatus(403);
-            }
+            response.setContentType("JSON");
+            PrintWriter pw = response.getWriter();
+            pw.write("[");
+            pw.write("[" + rows.getValue().toString() + ",");
+            pw.write(UserJson.ListToJson(listUser));
+            pw.write("]");
+            pw.write(",");
+            pw.write(RoleJson.ListToJson(roles));
+            pw.write("]");
+            pw.flush();
+            pw.close();
         } /*else if (StringUtil.update.equals(action)) {
             //now is only can update
             String id = request.getParameter("id");
@@ -64,7 +60,7 @@ public class UserRoleServlet extends HttpServlet {
             }
             Role user = new Role(display_name, _id);
             boolean isUp = RoleController.updateOrAddRole(user, login_user);
-        } */else if (StringUtil.query.equals(action)) {
+        } */ else if (StringUtil.query.equals(action)) {
             //id is userID
             String id = request.getParameter("id");
             long _id;

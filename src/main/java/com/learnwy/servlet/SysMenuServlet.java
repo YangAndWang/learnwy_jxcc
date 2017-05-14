@@ -24,15 +24,11 @@ public class SysMenuServlet extends HttpServlet {
         System.out.println(action);
         if (StringUtil.isNullOrEmpty(action)) {
             List<SysMenu> listMenus = SysMenuController.getAllSysMenus(login_user);
-            if (listMenus.size() > 0) {
-                response.setContentType("JSON");
-                PrintWriter pw = response.getWriter();
-                pw.write(MenuTreeJson.getSysMenuJson(listMenus));
-                pw.flush();
-                pw.close();
-            } else {
-                response.setStatus(403);
-            }
+            response.setContentType("JSON");
+            PrintWriter pw = response.getWriter();
+            pw.write(MenuTreeJson.getSysMenuJson(listMenus));
+            pw.flush();
+            pw.close();
         } else if (StringUtil.update.equals(action)) {
             //now is only can update
             String name = request.getParameter("name");

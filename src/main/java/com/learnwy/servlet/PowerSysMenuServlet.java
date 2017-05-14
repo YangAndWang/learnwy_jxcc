@@ -36,23 +36,19 @@ public class PowerSysMenuServlet extends HttpServlet {
             List<Power> listPower = PowerSysMenuController.getAllPower(login_user, page, rows);
             List<SysMenu> sysMenuList = PowerSysMenuController.getAllSysMenu(login_user);
             List<Power> powerList = PowerSysMenuController.getAllPower(login_user);
-            if (listPower.size() > 0) {
-                response.setContentType("JSON");
-                PrintWriter pw = response.getWriter();
-                pw.write("[");
-                pw.write("[" + rows.getValue().toString() + ",");
-                pw.write(PowerJson.ListToJson(listPower));
-                pw.write("]");
-                pw.write(",");
-                pw.write(SysMenuJson.listToJson(sysMenuList));
-                pw.write(",");
-                pw.write(PowerJson.ListToJson(powerList));
-                pw.write("]");
-                pw.flush();
-                pw.close();
-            } else {
-                response.setStatus(403);
-            }
+            response.setContentType("JSON");
+            PrintWriter pw = response.getWriter();
+            pw.write("[");
+            pw.write("[" + rows.getValue().toString() + ",");
+            pw.write(PowerJson.ListToJson(listPower));
+            pw.write("]");
+            pw.write(",");
+            pw.write(SysMenuJson.listToJson(sysMenuList));
+            pw.write(",");
+            pw.write(PowerJson.ListToJson(powerList));
+            pw.write("]");
+            pw.flush();
+            pw.close();
         }/* else if (StringUtil.update.equals(action)) {
             //now is only can update
             String id = request.getParameter("id");
@@ -115,9 +111,10 @@ public class PowerSysMenuServlet extends HttpServlet {
             } else {
                 _sys_menu_id = Long.valueOf(sys_menu_id);
             }
-            if(_power_id == -1 || _sys_menu_id == -1){
+            if (_power_id == -1 || _sys_menu_id == -1) {
 
-            }else{            boolean isAdd = PowerSysMenuController.add(login_user, _power_id, _sys_menu_id);
+            } else {
+                boolean isAdd = PowerSysMenuController.add(login_user, _power_id, _sys_menu_id);
 
             }
         }

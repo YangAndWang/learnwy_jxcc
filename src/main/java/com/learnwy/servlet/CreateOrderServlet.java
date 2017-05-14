@@ -43,18 +43,14 @@ public class CreateOrderServlet extends HttpServlet {
                 dish_id = Long.valueOf(dish_name.trim());
             }
             List<Dish> listDish = CreateOrderController.getDishList(login_user, page, rows, dish_name, dish_id);
-            if (listDish.size() > 0) {
-                response.setContentType("JSON");
-                PrintWriter pw = response.getWriter();
-                pw.write("[");
-                pw.write(rows.getValue().toString() + ",");
-                pw.write(DishJson.ListToJson(listDish));
-                pw.write("]");
-                pw.flush();
-                pw.close();
-            } else {
-                response.setStatus(403);
-            }
+            response.setContentType("JSON");
+            PrintWriter pw = response.getWriter();
+            pw.write("[");
+            pw.write(rows.getValue().toString() + ",");
+            pw.write(DishJson.ListToJson(listDish));
+            pw.write("]");
+            pw.flush();
+            pw.close();
         } /*else if (StringUtil.update.equals(action)) {
             //now is only can update
             String id = request.getParameter("id");
@@ -128,6 +124,8 @@ public class CreateOrderServlet extends HttpServlet {
             if (order_no != -1) {
                 int addOk = CreateOrderController.addOrder(login_user, _dish_ids, _dish_prices, _dish_counts, order_no);
             }
+        } else if (StringUtil.complete.equals(action)) {
+
         }
         response.sendRedirect("/index.jsp");
     }

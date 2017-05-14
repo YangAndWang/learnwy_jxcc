@@ -38,21 +38,17 @@ public class RolePowerServlet extends HttpServlet {
             TranValueClass rows = new TranValueClass(new Long(0));
             List<Role> listRole = RolePowerController.getAllRole(login_user, page, rows);
             List<Power> powers = RolePowerController.getAllPower(login_user);
-            if (listRole.size() > 0) {
-                response.setContentType("JSON");
-                PrintWriter pw = response.getWriter();
-                pw.write("[");
-                pw.write("[" + rows.getValue().toString() + ",");
-                pw.write(RoleJson.ListToJson(listRole));
-                pw.write("]");
-                pw.write(",");
-                pw.write(PowerJson.ListToJson(powers));
-                pw.write("]");
-                pw.flush();
-                pw.close();
-            } else {
-                response.setStatus(403);
-            }
+            response.setContentType("JSON");
+            PrintWriter pw = response.getWriter();
+            pw.write("[");
+            pw.write("[" + rows.getValue().toString() + ",");
+            pw.write(RoleJson.ListToJson(listRole));
+            pw.write("]");
+            pw.write(",");
+            pw.write(PowerJson.ListToJson(powers));
+            pw.write("]");
+            pw.flush();
+            pw.close();
         } /*else if (StringUtil.update.equals(action)) {
             //now is only can update
             String id = request.getParameter("id");

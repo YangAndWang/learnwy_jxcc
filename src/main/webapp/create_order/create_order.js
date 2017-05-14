@@ -89,7 +89,7 @@ $(function () {
             '/span> <', '/a><',
             '/li> <', '/ul>'];
     var i = 0;
-    if ((detail[0] / 10 ) > (pageList.length - 2 )) {
+    if ((detail[0] / 10 ) != (pageList.length - 2 )) {
         var activePage = pages.find("li.active");
         var page = activePage.length == 1 ? ((+activePage.data("page")) ) : 0;
         pageIndexs = [];
@@ -178,6 +178,14 @@ $(function () {
     }
     window['create_order_removeAddDish'] = function () {
         $("#create_order_connection .btn-danger").parent().parent().remove();
+    }
+    window['beforeCreateOrderSubmit'] = function () {
+        webSocket.send('order:');
+        var d = new Date().getTime() + 500;
+        for (; new Date().getTime() < d;) {
+
+        }
+        return true;
     }
 });
 

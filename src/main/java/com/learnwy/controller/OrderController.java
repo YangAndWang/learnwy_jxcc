@@ -2,7 +2,10 @@ package com.learnwy.controller;
 
 import com.learnwy.db.OrderDB;
 import com.learnwy.db.OrderDishDB;
+import com.learnwy.db.RoleDB;
+import com.learnwy.db.UserRoleDB;
 import com.learnwy.model.Order;
+import com.learnwy.model.OrderDish;
 import com.learnwy.model.SysMenu;
 import com.learnwy.model.User;
 import com.learnwy.util.TranValueClass;
@@ -20,7 +23,7 @@ public class OrderController {
         if (!checkPower(login_user)) {
             return new LinkedList<>();
         }
-        return OrderDB.getgetAllNoCompleteOrder(page, rows);
+        return OrderDB.getAllNoCompleteOrder(page, rows);
     }
 
     private static boolean checkPower(User login_user) {
@@ -38,5 +41,23 @@ public class OrderController {
             return "[]";
         }
         return OrderJson.ListToJson12(OrderDishDB.getDetailOrderDishs(id));
+    }
+
+    public static boolean completeDish(User login_user, long order_id, long dish_id) {
+        if (!checkPower(login_user)) {
+            return false;
+        }
+        //判断用户角色来决定订单的状态
+        long role_id = UserRoleDB.getRoleIdById(login_user.getUserId());
+        if (role_id == 33) {
+            //fwy
+            return OrderDishDB.updateDishState4(order_id, dish_id) > 0;
+        } else if (role_id == 32) {
+            //cs
+            return OrderDishDB.updateDishState2(order_id, dish_id) > 0;
+        }
+        return false;
+        // maybe will use in future
+        //return OrderDishDB.updateDishState(order_id, dish_id) > 0;
     }
 }

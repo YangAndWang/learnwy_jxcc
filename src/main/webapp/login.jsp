@@ -9,6 +9,8 @@
 <html>
 <head>
     <title>登录</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
     <script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.js"></script>
     <script src="http://apps.bdimg.com/libs/bootstrap/3.3.4/js/bootstrap.js"></script>
     <link href="http://apps.bdimg.com/libs/bootstrap/3.3.4/css/bootstrap.css">
@@ -75,7 +77,7 @@
               user-select: none; */
         }
 
-        .loginmodal-submit {
+        .login-modal-submit {
             /* border: 1px solid #3079ed; */
             border: 0px;
             color: #fff;
@@ -118,11 +120,8 @@
             <form method="post" action="/login">
                 <input type="text" name="name" placeholder="Username">
                 <input type="password" name="pwd" placeholder="Password">
-                <input type="submit" name="login" class="login loginmodal-submit" value="Login">
+                <input type="submit" name="login" class="login login-modal-submit" value="Login">
             </form>
-            <div class="login-help">
-                <%--<a href="register.jsp">注册</a> - --%><a href="findPwd.jsp">忘记密码</a>
-            </div>
         </div>
     </div>
 </div>

@@ -155,4 +155,19 @@ public class UserDB {
         }
         return users;
     }
+
+    //now in this system the user has only one Role
+    public static long getUserPowerRoleIDByUserId(long user_id) {
+        String sql = "SELECT ur.role_id FROM user u, user_role ur WHERE u.user_id = " + user_id + " AND u.user_id = ur.user_id";
+        long ret = -1;
+        try {
+            ResultSet rs = MySQL.excuteSQL(sql);
+            if (rs.next()) {
+                ret = rs.getLong(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return ret;
+    }
 }

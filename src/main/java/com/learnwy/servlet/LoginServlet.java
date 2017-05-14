@@ -32,21 +32,9 @@ public class LoginServlet extends javax.servlet.http.HttpServlet {
                     u.setUser(user);
                 }
             }
-            Cookie[] cookies = request.getCookies();
-            if (cookies != null) {
-                for (Cookie c : cookies) {
-                    if ("u".equals(c.getName())) {
-                        c.setValue(user.getDisplayName());
-                    } else {
-                        response.addCookie(new Cookie("u", user.getDisplayName()));
-                    }
-                    if ("n".equals(c.getName())) {
-                        c.setValue(user.getUserName());
-                    } else {
-                        response.addCookie(new Cookie("n", user.getUserName()));
-                    }
-                }
-            }
+            response.addCookie(new Cookie("u", user.getDisplayName()));
+            response.addCookie(new Cookie("n", user.getUserName()));
+            response.addCookie(new Cookie("id", String.valueOf(user.getUserId())));
             response.sendRedirect("/index.jsp");
         } else {
             response.sendRedirect("/login.jsp");

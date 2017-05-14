@@ -1,0 +1,42 @@
+<div id="order_manage" style="display:none">
+    <div id="order_manage_title" class="col-lg-3 col-sm-12">
+        <div id="order_title_content">
+
+        </div>
+        <nav id="order_pagination">
+            <ul class="pagination">
+                <li data-page="-1"><a href="#" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
+                </li>
+                <li data-page="+1"><a href="#" aria-label="Next"><span aria-hidden="true">&raquo;</span> </a></li>
+            </ul>
+        </nav>
+    </div>
+    <div class="col-lg-9  col-sm-12">
+        <div class="control-label">
+            <div class="col-sm-6">
+                <label for="order_create_date">订单时间</label>
+                <div id="order_create_date" class="label-info"></div>
+            </div>
+            <div class="col-sm-6">
+                <label for="order_order_id">订单号</label>
+                <div id="order_order_id" class="label-info"></div>
+            </div>
+            <div class="col-lg-12 col-sm-12">
+                <div class="control-box">
+                    <div class="col-lg-4 col-sm-4">
+                        菜名
+                    </div>
+                    <div class="col-lg-4 col-sm-4">
+                        数量
+                    </div>
+                    <div class="col-lg-4 col-sm-4">
+                        操作
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="order_connection" class="controls-pane">
+
+        </div>
+    </div>
+</div>

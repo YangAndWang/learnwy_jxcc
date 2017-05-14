@@ -374,7 +374,7 @@ public class MySQL {
         return rs;
     }
 
-    public static Connection getConnection() {
+    public static Connection getNewConnection() {
         Connection conn = null;
         try {
             Class.forName("com.mysql.jdbc.Driver").newInstance();

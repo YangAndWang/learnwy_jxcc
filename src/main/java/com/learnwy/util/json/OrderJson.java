@@ -12,6 +12,7 @@ public class OrderJson {
 
     /**
      * use for /order_manage
+     *
      * @param listOrder
      * @return
      */
@@ -21,7 +22,8 @@ public class OrderJson {
         for (Order r : listOrder) {
             sb.append("[");
             sb.append(r.getOrderId()).append(",\"");
-            sb.append(r.getCreateDate()).append("\"],");
+            sb.append(r.getCreateDate()).append("\",\"");
+            sb.append(r.getTableNo()).append("\"],");
         }
         sb.setLength(sb.length() - 1);
         sb.append("]");
@@ -29,11 +31,21 @@ public class OrderJson {
     }
 
     /**
-     *
      * @param detailOrderDishs
      * @return
      */
     public static String ListToJson12(List<OrderDishDetail> detailOrderDishs) {
-        return "";
+        StringBuffer sb = new StringBuffer();
+        sb.append("[ ");
+        for (OrderDishDetail r : detailOrderDishs) {
+            sb.append("[\"");
+            sb.append(r.getDish_name()).append("\",");
+            sb.append(r.getNums()).append(",");
+            sb.append(r.getDish_id()).append(",");
+            sb.append(r.getState()).append("],");
+        }
+        sb.setLength(sb.length() - 1);
+        sb.append("]");
+        return sb.toString();
     }
 }
