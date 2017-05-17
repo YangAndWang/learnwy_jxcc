@@ -13,6 +13,8 @@ public class StringUtil {
     public final static String order = "order";
 
     public final static String errPageUrlNoTableNo = "/index.jsp";
+    public final static String custom = "custom";
+    public final static String confirm = "confirm";
 
     public static boolean empty(String s) {
         return Empty.equals(s);

@@ -186,6 +186,7 @@ $(function () {
 
         }
         return true;
-    }
+    };
+    $("#user_menu").find("a[data-path='/create_order']").click();
 });
 

@@ -49,9 +49,11 @@
     var order_id;
     var order_table_no;
     var order_create_date;
+    var order_state;
     var orders_html_s = [];
     var order_html = ['<li class="list-group-item" data-order_id='
-        , order_id, ' data-order_table_no=', order_table_no, ' data-order_create_date=', order_create_date, '>', order_id, '<', '/li>'];
+        , order_id, ' data-order_table_no=', order_table_no, ' data-order_create_date=', order_create_date,
+        ' data-order_state=', order_state, ' >', order_id, '<', '/li>'];
     var order_manage_html = ['<ul class="list-group">', orders_html_s, '<', '/ul>']
     var i = 0;
     var detail = data;
@@ -88,7 +90,8 @@
         order_html[1] = data[i][0];
         order_html[3] = data[i][2];
         order_html[5] = data[i][1];
-        order_html[7] = data[i][0];
+        order_html[7] = data[i][3];
+        order_html[9] = data[i][0];
         orders_html_s.push(order_html.join(''));
     }
     orders_html_s = orders_html_s.join('');
@@ -98,7 +101,7 @@
         var _this = $(this);
         order_eles.removeClass("node-selected");
         _this.addClass("node-selected");
-        window["order_init"].call(this, _this.data("order_id"), _this.data("order_table_no"), _this.data("order_create_date"));
+        window["order_init"].call(this, _this.data("order_id"), _this.data("order_table_no"), _this.data("order_create_date"), _this.data('order_state'));
     });
     hideAllContent();
     $("#order_manage").show();
@@ -108,7 +111,7 @@
  * 左边主表数据点击事件,初始化右边从表数据
  * @param data
  */
-window["order_init"] = function (order_id, order_table_no, create_date) {
+window["order_init"] = function (order_id, order_table_no, create_date, order_state) {
     $.ajax('/order_manage?action=query', {
         data: {
             "id": order_id
@@ -117,7 +120,7 @@ window["order_init"] = function (order_id, order_table_no, create_date) {
         error: function (e) {
         },
         success: function (data) {
-            dealOrderConnection(data, order_id, order_table_no, create_date);
+            dealOrderConnection(data, order_id, order_table_no, create_date, order_state);
         },
         type: "POST"
     });
@@ -128,14 +131,14 @@ $(function () {
         ' action="/order_manage?action=del"' +
         ' method="post">' +
         '<div class="control-box"> ' +
-        ' <div class="hidden"><input type="number" name="order_id"><input type="number" name="dish_id"></div> ' +
+        ' <div class="hidden"> <input type="number" name="order_id"><input type="number" name="dish_id"></div> ' +
         ' <div class="col-sm-4"> <input type="text" name="dish_name" readonly> </div>' +
         ' <div class="col-sm-4"> <input type="number" name="dish_nums" disabled> </div>' +
         ' <div class="col-sm-4 text-center"> <button type="submit" class="btn btn-default">炒完</button> </div>' +
         '</div>' +
         '</form>';
     var sys_menu_add;
-    window['dealOrderConnection'] = function (data, order_id, table_no, create_date) {
+    window['dealOrderConnection'] = function (data, order_id, table_no, create_date, order_state) {
         var _order_id = data[0];
         var orders = data[1];
         var $sys;
@@ -157,6 +160,10 @@ $(function () {
             } else if (orders[i][3] == 4) {
                 $sys.find("button").attr("type", "button").text("已完成");
             }
+            if (order_state == 8) {
+                $sys.find("button").attr("type", "submit").text("全部确认");
+                $sys.attr("action", "/order_manage?action=confirm");
+            }
             connection.append($sys);
         }
     };
@@ -167,6 +174,7 @@ $(function () {
 
         }
         return true;
-    }
+    };
+    $("#user_menu").find("a[data-path='/order_manage']").click();
 });
 

@@ -5,6 +5,7 @@ import com.learnwy.model.SysMenu;
 import com.learnwy.model.User;
 import com.learnwy.util.TranValueClass;
 
+import java.io.PrintWriter;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -43,6 +44,19 @@ public class UserController {
         if (!checkPower(login_user)) {
             return new LinkedList<User>();
         }
-        return UserDB.getUsers(page,rows);
+        return UserDB.getUsers(page, rows);
+    }
+
+    public static boolean updateUserBySelf(User login_user, long id, String name, String display_name, String pwd) {
+        boolean ret = false;
+        if (login_user.getUserId() == id) {
+            ret = UserDB.updateUser(id, name, display_name, pwd) > 0;
+            if (ret) {
+                login_user.setUserName(name);
+                login_user.setDisplayName(display_name);
+                login_user.setUserPwd(pwd);
+            }
+        }
+        return ret;
     }
 }

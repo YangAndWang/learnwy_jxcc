@@ -23,7 +23,8 @@ public class OrderJson {
             sb.append("[");
             sb.append(r.getOrderId()).append(",\"");
             sb.append(r.getCreateDate()).append("\",\"");
-            sb.append(r.getTableNo()).append("\"],");
+            sb.append(r.getTableNo()).append("\",");
+            sb.append(r.getState()).append("],");
         }
         sb.setLength(sb.length() - 1);
         sb.append("]");

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style type="text/css">
+
+    </style>
+    <script src="/js/jquery/jquery-3.2.1.js"></script>
+    <script src="/js/jquery/qrcode.js"></script>
+    <script src="/js/jquery/jquery.qrcode.js"></script>
+
+    <script type="text/javascript">
+        var url = "";
+        var width = 300;
+        var height = 300;
+        $(function () {
+            $($("input").not("#link")).on('change', function (_this) {
+                var $this = $(_this);
+                url = location.host + "/customer.jsp?table_no=" + $("#table_no").val();
+                $("#qrcode").html('');
+                $("#qrcode").qrcode({
+                    width: $("#width").val(),
+                    height: $("#height").val(),
+                    text: url
+                });
+                $("#link").val(url);
+            });
+        });
+    </script>
+</head>
+<body>
+<div>
+    <label for="width">宽</label>
+    <input id="width" type="number" value="300">
+</div>
+<div><label for="height">高</label>
+    <input id="height" type="number" value="300">
+</div>
+<div><label for="table_no">桌号</label>
+    <input id="table_no" type="number">
+</div>
+<div>
+    <div id="qrcode">
+
+    </div>
+</div>
+<div><label for="link">链接</label>
+    <input type="text" style="width:400px;" id="link">
+</div>
+</body>
+</html>

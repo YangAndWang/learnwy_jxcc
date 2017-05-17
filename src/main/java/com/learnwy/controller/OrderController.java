@@ -60,4 +60,19 @@ public class OrderController {
         // maybe will use in future
         //return OrderDishDB.updateDishState(order_id, dish_id) > 0;
     }
+
+    public static boolean confirmOrder(User login_user, long order_id, long dish_id) {
+        if (!checkPower(login_user)) {
+            return false;
+        }
+        //判断用户角色来决定订单的状态
+        long role_id = UserRoleDB.getRoleIdById(login_user.getUserId());
+        if (role_id == 33) {
+            //fwy
+            return OrderDB.updateOrderState(order_id) > 0;
+        }
+        return false;
+        // maybe will use in future
+        //return OrderDishDB.updateDishState(order_id, dish_id) > 0;
+    }
 }

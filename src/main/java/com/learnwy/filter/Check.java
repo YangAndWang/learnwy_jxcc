@@ -25,7 +25,8 @@ public class Check implements Filter {
         System.out.println(request.getRequestURI());
         HttpSession httpSession = ((HttpServletRequest) req).getSession();
 
-        if (!request.getRequestURI().matches("/login[\\S]*")) {
+        if (!request.getRequestURI().matches("(/login[\\S]*)|(\\S*\\.(html.section|js|css|html|png)$)|" +
+                "(^/customer(|\\.jsp)$)")) {
             if (httpSession == null || httpSession.getAttribute("u") == null) {
                 ((HttpServletResponse) resp).sendRedirect("/login.jsp");
             }

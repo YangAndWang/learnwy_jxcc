@@ -6,6 +6,7 @@ import com.learnwy.model.Power;
 import com.learnwy.util.StringUtil;
 import com.learnwy.util.TranValueClass;
 
+import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.LinkedList;
@@ -112,6 +113,91 @@ public class DishDB {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        }
+        return ret;
+    }
+
+    public static class DishHasDictID {
+        long dict_id;
+        long dish_id;
+        String dish_name;
+        BigDecimal dish_price;
+        String dish_img_path;
+        BigDecimal dish_discount;
+
+        public DishHasDictID() {
+        }
+
+        public DishHasDictID(long dict_id, long dish_id, String dish_name, BigDecimal dish_price, String dish_img_path, BigDecimal dish_discount) {
+            this.dict_id = dict_id;
+            this.dish_id = dish_id;
+            this.dish_name = dish_name;
+            this.dish_price = dish_price;
+            this.dish_img_path = dish_img_path;
+            this.dish_discount = dish_discount;
+        }
+
+        public long getDict_id() {
+            return dict_id;
+        }
+
+        public void setDict_id(long dict_id) {
+            this.dict_id = dict_id;
+        }
+
+        public long getDish_id() {
+            return dish_id;
+        }
+
+        public void setDish_id(long dish_id) {
+            this.dish_id = dish_id;
+        }
+
+        public String getDish_name() {
+            return dish_name;
+        }
+
+        public void setDish_name(String dish_name) {
+            this.dish_name = dish_name;
+        }
+
+        public BigDecimal getDish_price() {
+            return dish_price;
+        }
+
+        public void setDish_price(BigDecimal dish_price) {
+            this.dish_price = dish_price;
+        }
+
+        public String getDish_img_path() {
+            return dish_img_path;
+        }
+
+        public void setDish_img_path(String dish_img_path) {
+            this.dish_img_path = dish_img_path;
+        }
+
+        public BigDecimal getDish_discount() {
+            return dish_discount;
+        }
+
+        public void setDish_discount(BigDecimal dish_discount) {
+            this.dish_discount = dish_discount;
+        }
+    }
+
+    public static List<DishHasDictID> getAllDishsOrderByDictId() {
+        LinkedList<DishHasDictID> ret = new LinkedList<DishHasDictID>();
+        String sql = "SELECT dd.dict_id, d.dish_id, d.dish_name, d.dish_price, d.dish_img_path, d.dish_discount FROM dish_dict dd, dish d WHERE dd.dish_id = d.dish_id ORDER BY dict_id";
+        ResultSet rs = MySQL.excuteSQL(sql);
+        try {
+            DishHasDictID dish = null;
+            while (rs.next()) {
+                dish = new DishHasDictID(rs.getLong(1), rs.getLong(2), rs.getString(3), rs.getBigDecimal(4), rs
+                        .getString(5), rs.getBigDecimal(6));
+                ret.add(dish);
+            }
+        } catch (Exception ex) {
         }
         return ret;
     }

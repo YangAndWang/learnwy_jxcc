@@ -89,4 +89,32 @@ public class WebSocketWY {
         this.session.getAsyncRemote().sendText(message);
         //this.session.getBasicRemote().sendText(message);
     }
+
+    public static void orderCS() {
+        for (WebSocketWY webSocketWY : cs) {
+            webSocketWY.sendMessage("order:");
+        }
+        return;
+    }
+
+    public static void completeCS() {
+        for (WebSocketWY webSocketWY : cs) {
+            webSocketWY.sendMessage("complete:");
+        }
+        return;
+    }
+
+    public static void orderFWY() {
+        for (WebSocketWY webSocketWY : fwy) {
+            webSocketWY.sendMessage("order:");
+        }
+        return;
+    }
+
+    public static void completeFWY() {
+        for (WebSocketWY webSocketWY : fwy) {
+            webSocketWY.sendMessage("complete:");
+        }
+        return;
+    }
 }

@@ -98,7 +98,7 @@ public class OrderDishDB {
         List<OrderDishDetail> ret = new LinkedList<>();
         String sql = "SELECT distinct d.dish_name, od.nums,d.dish_id,od.state FROM `order` o, order_dish od, dish d " +
                 "WHERE" +
-                " o.order_id = od.order_id AND od.dish_id = d.dish_id AND o.state in (1,2) AND o.order_id = " + id;
+                " o.order_id = od.order_id AND od.dish_id = d.dish_id AND o.state in (1,2,8) AND o.order_id = " + id;
         ResultSet rs = MySQL.excuteSQL(sql);
         try {
             while (rs.next()) {

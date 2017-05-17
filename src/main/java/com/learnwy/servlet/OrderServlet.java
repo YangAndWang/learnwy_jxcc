@@ -73,6 +73,21 @@ public class OrderServlet extends HttpServlet {
                 _order_id = Long.valueOf(order_id);
             }
             boolean isCompleteOk = OrderController.completeDish(login_user, _order_id, _dish_id);
+        } else if (StringUtil.confirm.equals(action)) {
+            String order_id = request.getParameter("order_id");
+            String dish_id = request.getParameter("dish_id");
+            long _order_id = -1;
+            long _dish_id = -1;
+            if (StringUtil.canParseLong(dish_id)) {
+                _dish_id = Long.valueOf(dish_id);
+            }
+            if (StringUtil.canParseLong(order_id)) {
+                _order_id = Long.valueOf(order_id);
+            }
+            boolean isCompleteOk = OrderController.confirmOrder(login_user, _order_id, _dish_id);
+            if (isCompleteOk) {
+                WebSocketWY.orderCS();
+            }
         }
         response.sendRedirect("/index.jsp");
     }

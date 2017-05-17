@@ -129,7 +129,8 @@ public class UserDB {
                 user.setDisplayName(rs.getString(4));
                 user.setUserId(rs.getLong(1));
                 user.setUserName(rs.getString(2));
-                user.setUserPwd("");
+                // I will use user_pwd in user.jsp
+                //user.setUserPwd("");
                 return true;
             }
         } catch (SQLException e) {
@@ -169,5 +170,12 @@ public class UserDB {
             e.printStackTrace();
         }
         return ret;
+    }
+
+    public static int updateUser(long id, String name, String display_name, String pwd) {
+        int ret = -1;
+        String sql = "UPDATE `user` SET display_name = '" + display_name + "', user_name      = '" + name + "', " +
+                "user_pwd = '" + pwd + "' WHERE user_id = " + id;
+        return MySQL.updateSQL(sql);
     }
 }

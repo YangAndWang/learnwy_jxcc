@@ -46,7 +46,6 @@ public class UserServlet extends HttpServlet {
             pwd = StringUtil.trimPath(pwd);
             display_name = StringUtil.trimPathLangCN(display_name);
             long _id;
-
             if (StringUtil.isNullOrEmpty(id)) {
                 _id = -1;
             } else {
@@ -54,6 +53,38 @@ public class UserServlet extends HttpServlet {
             }
             User user = new User(display_name, name, pwd, _id);
             boolean isUp = UserController.updateOrAddUser(user, login_user);
+        } else if (StringUtil.custom.equals(action)) {
+            String id = request.getParameter("id");
+            String name = request.getParameter("name");
+            String display_name = request.getParameter("display_name");
+            String pwd = request.getParameter("pwd");
+            long _id = -1;
+            boolean canUpdate = true;
+            if (StringUtil.canParseLong(id)) {
+                _id = Long.valueOf(id);
+            } else {
+                canUpdate = false;
+            }
+            response.setContentType("JSON");
+            if (StringUtil.isNullOrEmpty(name) || StringUtil.isNullOrEmpty(display_name) || StringUtil.isNullOrEmpty
+                    (pwd)) {
+                canUpdate = false;
+            } else {
+                name = name.replaceAll("'", "");
+                display_name = display_name.replaceAll("'", "");
+                pwd = pwd.replaceAll("'", "");
+            }
+            PrintWriter pw = response.getWriter();
+            if (canUpdate) {
+                canUpdate = UserController.updateUserBySelf(login_user, _id, name, display_name, pwd);
+            } else {
+            }
+            pw.write("[");
+            pw.write(canUpdate ? "1" : "0");
+            pw.write("]");
+            pw.flush();
+            pw.close();
+            return;
         }
         response.sendRedirect("/index.jsp");
     }

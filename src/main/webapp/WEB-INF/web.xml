@@ -31,4 +31,7 @@
         <servlet-name>SysMenuServlet</servlet-name>
         <url-pattern>/sys_menu_manage</url-pattern>
     </servlet-mapping>
+    <session-config>
+        <session-timeout>15</session-timeout>
+    </session-config>
 </web-app>

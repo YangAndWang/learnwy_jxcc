@@ -68,7 +68,7 @@
                     </li>
                     <li class="right">
                         <ul class="nav navbar-nav navbar-right">
-                            <li><a><%= userName %>
+                            <li><a href="/user.jsp"><%= userName %>
                             </a></li>
                             <li><a class="navbar-link" href="loginout.jsp">注销</a></li>
                             <li><a class="current_time"></a></li>
@@ -215,7 +215,7 @@
 <script>
     var webSocket = null;
     if (WebSocket != undefined) {
-        webSocket = new WebSocket("ws://localhost:8080/webSocket");
+        webSocket = new WebSocket("ws://" + window.location.host + "/webSocket");
         webSocket.onopen = function (event) {
             webSocket.send("id:" + Cookies.get("id"));
         }

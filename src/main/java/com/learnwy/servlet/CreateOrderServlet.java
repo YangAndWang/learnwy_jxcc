@@ -47,7 +47,7 @@ public class CreateOrderServlet extends HttpServlet {
             PrintWriter pw = response.getWriter();
             pw.write("[");
             pw.write(rows.getValue().toString() + ",");
-            pw.write(DishJson.ListToJson(listDish));
+            pw.write(DishJson.ListToJson1(listDish));
             pw.write("]");
             pw.flush();
             pw.close();
