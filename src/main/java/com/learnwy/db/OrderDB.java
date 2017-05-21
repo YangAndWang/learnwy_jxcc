@@ -20,7 +20,7 @@ public class OrderDB {
         Order order = null;
         try {
             while (rs.next()) {
-                order = new Order(rs.getLong(1), rs.getDate(2), rs.getLong(3));
+                order = new Order(rs.getLong(1), rs.getTimestamp(2), rs.getLong(3));
                 ret.add(order);
             }
         } catch (Exception ex) {
@@ -129,7 +129,7 @@ public class OrderDB {
 
     public static List<Order> getAllNoCompleteOrder(long page, TranValueClass rows) {
         List<Order> ret = new LinkedList<>();
-        String sql = "SELECT count(order_id) from `order` where state = 1 ";
+        String sql = "SELECT count(order_id) from `order` where state in(1,2,8) ";
         String dataSQL = " SELECT order_id,create_date,table_no,state FROM `order` where state in (1,2,8) order by " +
                 "create_date desc" +
                 " " +
@@ -144,7 +144,7 @@ public class OrderDB {
             while (rs.next()) {
                 order = new Order();
                 order.setOrderId(rs.getLong(1));
-                order.setCreateDate(rs.getDate(2));
+                order.setCreateDate(rs.getTimestamp(2));
                 order.setTableNo(rs.getLong(3));
                 order.setState(rs.getLong(4));
                 ret.add(order);
@@ -161,5 +161,33 @@ public class OrderDB {
         }
         String sql = "update `order` set state = 1 where order_id = " + order_id;
         return MySQL.updateSQL(sql);
+    }
+
+    public static List<Order> getAllNoCompleteOrderExpectCustomer(long page, TranValueClass rows) {
+        List<Order> ret = new LinkedList<>();
+        String sql = "SELECT count(order_id) from `order` where state in (1,2) ";
+        String dataSQL = " SELECT order_id,create_date,table_no,state FROM `order` where state in (1,2) order by " +
+                "create_date desc" +
+                " " +
+                "limit" +
+                "  " + page * 10 + ",10";
+        try {
+            ResultSet rs = MySQL.excuteSQL(sql);
+            rs.next();
+            rows.setValue(Long.valueOf(rs.getLong(1)));
+            rs = MySQL.excuteSQL(dataSQL);
+            Order order;
+            while (rs.next()) {
+                order = new Order();
+                order.setOrderId(rs.getLong(1));
+                order.setCreateDate(rs.getTimestamp(2));
+                order.setTableNo(rs.getLong(3));
+                order.setState(rs.getLong(4));
+                ret.add(order);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return ret;
     }
 }

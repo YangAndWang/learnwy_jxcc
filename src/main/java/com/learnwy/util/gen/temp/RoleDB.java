@@ -1,3 +1,5 @@
+package com.learnwy.util.gen.temp;
+
 import com.learnwy.db.mysql.MySQL;
 import com.learnwy.model.Role;
 

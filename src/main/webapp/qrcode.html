@@ -15,7 +15,7 @@
         $(function () {
             $($("input").not("#link")).on('change', function (_this) {
                 var $this = $(_this);
-                url = location.host + "/customer.jsp?table_no=" + $("#table_no").val();
+                url = location.protocol + '//' + location.host + "/customer.jsp?table_no=" + $("#table_no").val();
                 $("#qrcode").html('');
                 $("#qrcode").qrcode({
                     width: $("#width").val(),

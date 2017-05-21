@@ -26,6 +26,13 @@ public class PowerSysMenuController {
         return false;
     }
 
+    /**
+     * 获取权限分页，分页大小为10
+     * @param login_user
+     * @param page
+     * @param rows
+     * @return
+     */
     public static List<Power> getAllPower(User login_user, long page, TranValueClass rows) {
         if (!checkPower(login_user)) {
             return new LinkedList<>();
@@ -33,6 +40,11 @@ public class PowerSysMenuController {
         return PowerDB.getPowers(page, rows);
     }
 
+    /**
+     * 获取所有的菜单
+     * @param login_user
+     * @return
+     */
     public static List<SysMenu> getAllSysMenu(User login_user) {
         if (!checkPower(login_user)) {
             return new LinkedList<>();
@@ -40,6 +52,12 @@ public class PowerSysMenuController {
         return SysMenuDB.getSysMenus();
     }
 
+    /**
+     * 获取对应权限的系统菜单信息
+     * @param login_user
+     * @param id
+     * @return
+     */
     public static String getSysMenusJsonByPowerID(User login_user, long id) {
         if (id == -1) {
             return "[]";
@@ -52,6 +70,13 @@ public class PowerSysMenuController {
         return SysMenuJson.listToJson(sysMenus);
     }
 
+    /**
+     * 删除某个权限的菜单
+     * @param login_user
+     * @param power_id
+     * @param sys_menu_id
+     * @return
+     */
     public static boolean delete(User login_user, long power_id, long sys_menu_id) {
         if (!checkPower(login_user)) {
             return false;
@@ -59,6 +84,13 @@ public class PowerSysMenuController {
         return SysMenuPowerDB.delSysMenuPower(power_id, sys_menu_id) > 0;
     }
 
+    /**
+     * 给某个权限添加菜单
+     * @param login_user
+     * @param power_id
+     * @param sys_menu_id
+     * @return
+     */
     public static boolean add(User login_user, long power_id, long sys_menu_id) {
         if (!checkPower(login_user) || power_id == -1 || sys_menu_id == -1) {
             return false;
@@ -66,6 +98,11 @@ public class PowerSysMenuController {
         return SysMenuPowerDB.addSysMenuPower(power_id, sys_menu_id) > 0;
     }
 
+    /**
+     * 获取所有的权限
+     * @param login_user
+     * @return
+     */
     public static List<Power> getAllPower(User login_user) {
         if (!checkPower(login_user)) {
             return new LinkedList<>();

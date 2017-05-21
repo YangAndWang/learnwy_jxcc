@@ -13,14 +13,23 @@ import java.util.List;
  * Created by 25973 on 2017-05-05.
  */
 public class RoleController {
+    /**
+     * 获取该用户所有的角色
+     * @param user
+     * @return
+     */
     public static List<Role> getRolesByUser(User user) {
-
         if (user == null) {
             return null;
         }
         return getRolesByUserID(user.getUserId());
     }
 
+    /**
+     * 获取该用户id对应的所有角色
+     * @param id
+     * @return
+     */
     public static List<Role> getRolesByUserID(Long id) {
         return RoleDB.getRolesByUserId(id);
     }
@@ -42,6 +51,12 @@ public class RoleController {
         return false;
     }
 
+    /**
+     * 添加或者更新角色
+     * @param role
+     * @param login_user
+     * @return
+     */
     public static boolean updateOrAddRole(Role role, User login_user) {
         if (!checkPower(login_user)) {
             return false;

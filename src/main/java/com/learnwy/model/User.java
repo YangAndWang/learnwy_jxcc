@@ -14,7 +14,7 @@ public class User {
     private String display_name;
     private String user_name;
     private String user_pwd = "";
-    private long user_id;
+    private long user_id = -1;
 
     public String getDisplayName() {
         return this.display_name;

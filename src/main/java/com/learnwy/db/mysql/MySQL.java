@@ -321,6 +321,11 @@ public class MySQL {
         ResultSet rs = null;
         try {
             Class.forName("com.mysql.jdbc.Driver").newInstance();
+            if (conn == null || conn.isClosed()) {
+                conn = conn = DriverManager.getConnection
+                        ("jdbc:mysql://localhost/learnwy_jxcc?useUnicode=true&characterEncoding=UTF-8&useUnicode=true&characterEncoding=UTF-8&" + "user=root&password=SFigiu88");
+
+            }
         } catch (Exception ex) {
         }
         try {
@@ -342,6 +347,11 @@ public class MySQL {
         } catch (Exception ex) {
         }
         try {
+            if (conn == null || conn.isClosed()) {
+                conn = conn = DriverManager.getConnection
+                        ("jdbc:mysql://localhost/learnwy_jxcc?useUnicode=true&characterEncoding=UTF-8&useUnicode=true&characterEncoding=UTF-8&" + "user=root&password=SFigiu88");
+
+            }
             PreparedStatement preS = conn.prepareStatement(sql);
             rs = preS.executeUpdate();
         } catch (SQLException ex) {

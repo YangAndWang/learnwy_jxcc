@@ -89,10 +89,18 @@
     </div>
     <div class="form-group">
         <div class="col-sm-6">
+            前密码
+        </div>
+        <div class="col-sm-6">
+            <input id="last_pwd" type="password" name="last_pwd">
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-6">
             密码
         </div>
         <div class="col-sm-6">
-            <input id="pwd" type="text" name="pwd" value="<%=pwd%>">
+            <input id="pwd" type="password" name="pwd" value="">
         </div>
     </div>
     <div class="form-group">
@@ -120,7 +128,8 @@
                     "id": $("#id").val(),
                     "display_name": $("#display_name").val(),
                     "name": $("#name").val(),
-                    "pwd": $("#pwd").val()
+                    "pwd": $("#pwd").val(),
+                    "last_pwd": $("#last_pwd").val()
                 },
                 dataType: "json",
                 error: function (e) {

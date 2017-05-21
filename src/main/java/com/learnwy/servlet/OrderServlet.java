@@ -44,6 +44,7 @@ public class OrderServlet extends HttpServlet {
             pw.write("]");
             pw.flush();
             pw.close();
+            return;
         } else if (StringUtil.query.equals(action)) {
             String id = request.getParameter("id");
             long _id;
@@ -61,6 +62,7 @@ public class OrderServlet extends HttpServlet {
             pw.write("]");
             pw.flush();
             pw.close();
+            return;
         } else if (StringUtil.del.equals(action)) {
             String order_id = request.getParameter("order_id");
             String dish_id = request.getParameter("dish_id");

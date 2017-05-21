@@ -36,6 +36,7 @@ public class UserServlet extends HttpServlet {
             pw.write("]");
             pw.flush();
             pw.close();
+            return;
         } else if (StringUtil.update.equals(action)) {
             //now is only can update
             String id = request.getParameter("id");
@@ -58,6 +59,7 @@ public class UserServlet extends HttpServlet {
             String name = request.getParameter("name");
             String display_name = request.getParameter("display_name");
             String pwd = request.getParameter("pwd");
+            String last_pwd = request.getParameter("last_pwd");
             long _id = -1;
             boolean canUpdate = true;
             if (StringUtil.canParseLong(id)) {
@@ -67,16 +69,17 @@ public class UserServlet extends HttpServlet {
             }
             response.setContentType("JSON");
             if (StringUtil.isNullOrEmpty(name) || StringUtil.isNullOrEmpty(display_name) || StringUtil.isNullOrEmpty
-                    (pwd)) {
+                    (pwd) || StringUtil.isNullOrEmpty(last_pwd)) {
                 canUpdate = false;
             } else {
-                name = name.replaceAll("'", "");
-                display_name = display_name.replaceAll("'", "");
-                pwd = pwd.replaceAll("'", "");
+                name = name.trim().replaceAll("'|\\-|;", "");
+                display_name = display_name.trim().replaceAll("'|\\-|;", "");
+                pwd = pwd.trim().replaceAll("'|\\-|;", "");
+                last_pwd = last_pwd.trim().replaceAll("'|\\-|;", "");
             }
             PrintWriter pw = response.getWriter();
             if (canUpdate) {
-                canUpdate = UserController.updateUserBySelf(login_user, _id, name, display_name, pwd);
+                canUpdate = UserController.updateUserBySelf(login_user, _id, name, display_name, pwd, last_pwd);
             } else {
             }
             pw.write("[");

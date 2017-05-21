@@ -118,12 +118,27 @@
         <div class="loginmodal-container">
             <h1>登录</h1><br>
             <form method="post" action="/login">
-                <input type="text" name="name" placeholder="Username">
-                <input type="password" name="pwd" placeholder="Password">
+                <label id="msg" style="color: red;"></label>
+                <input type="text" name="name" placeholder="登录名">
+                <input type="password" name="pwd" placeholder="密码">
                 <input type="submit" name="login" class="login login-modal-submit" value="Login">
             </form>
         </div>
     </div>
 </div>
+<script>
+    var msg = "";
+    switch (+window.location.search.slice(8)) {
+        case 1:
+            msg = "帐号或密码不能为空";
+            break;
+        case 2:
+            msg = "帐号或密码错误";
+            break;
+        default:
+            break;
+    }
+    document.getElementById("msg").innerText = msg;
+</script>
 </body>
 </html>

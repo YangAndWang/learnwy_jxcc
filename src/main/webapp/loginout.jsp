@@ -16,10 +16,12 @@
         if (session1 != null) {
             if (session1.getAttribute("u") != null) {
                 session1.setAttribute("u", null);
-                response.sendRedirect("/login.jsp");
             }
         }
     %>
+    <script type="text/javascript">
+        window.location.href = "/login.jsp";
+    </script>
 </head>
 <body>
 

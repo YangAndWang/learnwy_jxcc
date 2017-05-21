@@ -1,59 +1,60 @@
-;$(function () {
-    $("#order_pagination").on("click", "li", function () {
-        var _this = $(this);
-        var index = _this.data("page");
-        var pages = $("#order_pagination");
-        var activePage = pages.find("li.active");
-        var page = activePage.length == 1 ? ((+activePage.data("page")) ) : 0;
-        if (index == "-1") {
-            if (page - 1 < 0) {
-                return;
-            } else {
-                pages.find("li").removeClass("active");
-                page--;
-                $(pages.find('li').get(page + 1)).addClass("active");
-            }
-        } else if (index === "+1") {
-            if (page > (pages.find("li").length - 4)) {
-                return;
-            } else {
-                pages.find("li").removeClass("active");
-                page++;
-                $(pages.find('li').get(page + 1)).addClass("active");
-            }
-        } else {
-            pages.find("li").removeClass("active");
-            _this.addClass("active");
-            var activePage = pages.find("li.active");
-            var page2 = activePage.length == 1 ? ((+activePage.data("page")) ) : 0;
-            if (page2 == page) {
-                return;
-            } else {
-                page = page2;
-            }
-        }
-        $.ajax('/order_manage', {
-            data: {"page": page},
-            dataType: "json",
-            error: function (e) {
-            },
-            success: function (data) {
-                dealOrderManage(data[0]);
-            },
-            type: "POST"
-        });
-    });
-});
-
+;var order_panagetion_has_hander = false;
 ;window["dealOrderManage"] = function (data) {
+    if (!order_panagetion_has_hander && $("#order_pagination").length > 0) {
+        order_panagetion_has_hander = true;
+        $("#order_pagination").on("click", "li", function () {
+            var _this = $(this);
+            var index = _this.data("page");
+            var pages = $("#order_pagination");
+            var activePage = pages.find("li.active");
+            var page = activePage.length == 1 ? ((+activePage.data("page")) ) : 0;
+            if (index == "-1") {
+                if (page - 1 < 0) {
+                    return;
+                } else {
+                    pages.find("li").removeClass("active");
+                    page--;
+                    $(pages.find('li').get(page + 1)).addClass("active");
+                }
+            } else if (index === "+1") {
+                if (page > (pages.find("li").length - 4)) {
+                    return;
+                } else {
+                    pages.find("li").removeClass("active");
+                    page++;
+                    $(pages.find('li').get(page + 1)).addClass("active");
+                }
+            } else {
+                pages.find("li").removeClass("active");
+                _this.addClass("active");
+                var activePage = pages.find("li.active");
+                var page2 = activePage.length == 1 ? ((+activePage.data("page")) ) : 0;
+                if (page2 == page) {
+                    return;
+                } else {
+                    page = page2;
+                }
+            }
+            $.ajax('/order_manage', {
+                data: {"page": page},
+                dataType: "json",
+                error: function (e) {
+                },
+                success: function (data) {
+                    dealOrderManage(data);
+                },
+                type: "POST"
+            });
+        });
+    }
     var order_id;
     var order_table_no;
     var order_create_date;
     var order_state;
     var orders_html_s = [];
-    var order_html = ['<li class="list-group-item" data-order_id='
-        , order_id, ' data-order_table_no=', order_table_no, ' data-order_create_date=', order_create_date,
-        ' data-order_state=', order_state, ' >', order_id, '<', '/li>'];
+    var order_html = ['<li class="list-group-item" data-order_id="'
+        , order_id, '" data-order_table_no=', order_table_no, ' data-order_create_date="', order_create_date,
+        '" data-order_state="', order_state, '" >', order_id, '<', '/li>'];
     var order_manage_html = ['<ul class="list-group">', orders_html_s, '<', '/ul>']
     var i = 0;
     var detail = data;
@@ -146,6 +147,7 @@ $(function () {
         var i = 0;
         $("#order_create_date").html(create_date);
         $("#order_order_id").html(_order_id);
+        $("#order_table_no").html(table_no);
         var connection = $("#order_connection");
         connection.children().remove();
         for (i = 0; i < orders.length; i++) {
@@ -168,11 +170,11 @@ $(function () {
         }
     };
     window['beforeOrderDishSubmit'] = function () {
-        webSocket.send('complete:');
-        var d = new Date().getTime() + 500;
-        for (; new Date().getTime() < d;) {
-
-        }
+        // webSocket.send('complete:');
+        // var d = new Date().getTime() + 500;
+        // for (; new Date().getTime() < d;) {
+        //
+        // }
         return true;
     };
     $("#user_menu").find("a[data-path='/order_manage']").click();

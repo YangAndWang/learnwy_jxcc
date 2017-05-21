@@ -1,5 +1,6 @@
 package com.learnwy.filter;
 
+
 import javax.servlet.*;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -25,14 +26,16 @@ public class Check implements Filter {
         System.out.println(request.getRequestURI());
         HttpSession httpSession = ((HttpServletRequest) req).getSession();
 
-        if (!request.getRequestURI().matches("(/login[\\S]*)|(\\S*\\.(html.section|js|css|html|png)$)|" +
+        if (!request.getRequestURI().matches("(/login[\\S]*)|(\\/)|(\\S*\\.(html.section|js|css|html|png|ico)$)|" +
                 "(^/customer(|\\.jsp)$)")) {
             if (httpSession == null || httpSession.getAttribute("u") == null) {
                 ((HttpServletResponse) resp).sendRedirect("/login.jsp");
+                return;
             }
             Cookie[] cookies = request.getCookies();
             if (cookies == null || cookies.length < 2) {
                 ((HttpServletResponse) resp).sendRedirect("/login.jsp");
+                return;
             }
         }
         chain.doFilter(req, resp);

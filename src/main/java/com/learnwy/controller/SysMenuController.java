@@ -18,10 +18,21 @@ import java.util.List;
  * Created by 25973 on 2017-05-05.
  */
 public class SysMenuController {
+    /**
+     * 获取用户对应的菜单
+     * @param userId
+     * @return
+     */
     public static List<SysMenu> getSysMenusByUserId(long userId) {
         return getSysMenusByPowers(PowerController.getPowersByRoles(RoleController.getRolesByUserID(userId)));
     }
 
+    /**
+     * 通过登录的用户获取该用户对应的菜单
+     *
+     * @param user
+     * @return
+     */
     public static List<SysMenu> getSysMenusByUser(User user) {
         if (user == null) {
             return new LinkedList<SysMenu>();
@@ -29,6 +40,12 @@ public class SysMenuController {
         return getSysMenusByUserId(user.getUserId());
     }
 
+    /**
+     * 通过权限[]获取菜单
+     *
+     * @param powers
+     * @return
+     */
     public static List<SysMenu> getSysMenusByPowers(List<Power> powers) {
         long[] powerIds = new long[powers.size()];
         int i = 0;
@@ -38,10 +55,22 @@ public class SysMenuController {
         return getSysMenusByPowerIds(powerIds);
     }
 
+    /**
+     * 通过权限ids[] 获取菜单
+     *
+     * @param powerIds
+     * @return
+     */
     public static List<SysMenu> getSysMenusByPowerIds(long[] powerIds) {
         return SysMenuDB.getSysMenusByPowerIds(powerIds);
     }
 
+    /**
+     * 检测权限后，成功获取所有菜单
+     *
+     * @param u
+     * @return
+     */
     public static List<SysMenu> getAllSysMenus(User u) {
         if (!checkPower(u)) {
             return new LinkedList<>();
@@ -58,6 +87,13 @@ public class SysMenuController {
         return false;
     }
 
+    /**
+     * 更新菜单，但是并没有设计这个功能
+     *
+     * @param sysMenu
+     * @param u
+     * @return
+     */
     public static boolean updateSysMenu(SysMenu sysMenu, User u) {
         if (!checkPower(u)) {
             return false;
@@ -65,6 +101,13 @@ public class SysMenuController {
         return SysMenuDB.updateSysMenu(sysMenu) > 0;
     }
 
+    /**
+     * 更新或添加系统菜单
+     *
+     * @param sysMenu
+     * @param login_user
+     * @return
+     */
     public static boolean addOrUpdateSysMenu(SysMenu sysMenu, User login_user) {
         if (!checkPower(login_user)) {
             return false;

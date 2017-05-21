@@ -120,23 +120,25 @@ public class UserDB {
         return user;
     }
 
-    public static boolean getUserByLogin(User user) {
+    public static User getUserByLogin(User user) {
         String sql = "select distinct user_id,user_name,user_pwd,display_name from user where user_name = '" + user.getUserName() + "' and user_pwd = '" + user.getUserPwd() + "'";
         ResultSet rs = MySQL.excuteSQL(sql);
 
         try {
             if (rs.next()) {
-                user.setDisplayName(rs.getString(4));
-                user.setUserId(rs.getLong(1));
-                user.setUserName(rs.getString(2));
+                User u = new User();
+                u.setDisplayName(rs.getString(4));
+                u.setUserId(rs.getLong(1));
+                u.setUserName(rs.getString(2));
+                u.setUserPwd(rs.getString(3));
                 // I will use user_pwd in user.jsp
                 //user.setUserPwd("");
-                return true;
+                return u;
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return false;
+        return new User();
     }
 
     public static List<User> getUsers(long page, TranValueClass rows) {
@@ -172,10 +174,10 @@ public class UserDB {
         return ret;
     }
 
-    public static int updateUser(long id, String name, String display_name, String pwd) {
+    public static int updateUser(long id, String name, String display_name, String pwd, String last_pwd) {
         int ret = -1;
         String sql = "UPDATE `user` SET display_name = '" + display_name + "', user_name      = '" + name + "', " +
-                "user_pwd = '" + pwd + "' WHERE user_id = " + id;
+                "user_pwd = '" + pwd + "' WHERE user_id = " + id + " and user_pwd = '" + last_pwd + "'";
         return MySQL.updateSQL(sql);
     }
 }

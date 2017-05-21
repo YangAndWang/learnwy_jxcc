@@ -10,10 +10,18 @@ import com.learnwy.util.json.DishJson;
  */
 public class DictController {
 
+    /**
+     * 获取所有的菜分类信息
+     * @return
+     */
     public static String getDictJson() {
         return DictJson.ListToJson(DictDB.getAllDicts());
     }
 
+    /**
+     * 获取所有的菜分类信息 ，根据分类的ID排序
+     * @return
+     */
     public static String getDishJson() {
         return DishJson.ListToJson2(DishDB.getAllDishsOrderByDictId());
     }

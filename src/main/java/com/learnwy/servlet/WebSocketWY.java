@@ -2,9 +2,7 @@ package com.learnwy.servlet;
 
 
 import com.learnwy.controller.WebSocketController;
-import com.learnwy.model.SysMenu;
 
-import javax.servlet.http.HttpSession;
 import javax.websocket.OnClose;
 import javax.websocket.OnMessage;
 import javax.websocket.OnOpen;

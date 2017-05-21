@@ -1,8 +1,10 @@
 package com.learnwy.db;
 
 import com.learnwy.db.mysql.MySQL;
+import com.learnwy.model.Order;
 import com.learnwy.model.OrderDish;
 import com.learnwy.model.OrderDishDetail;
+import com.learnwy.util.TranValueClass;
 
 import java.math.BigDecimal;
 import java.sql.ResultSet;
@@ -124,11 +126,25 @@ public class OrderDishDB {
 
     public static int updateDishState4(long order_id, long dish_id) {
         String sql = "update order_dish set state = 4 where order_id = " + order_id + " and dish_id = " + dish_id;
-        return MySQL.updateSQL(sql);
+        String sqlAllOk = "select 1 from order_dish where order_id = " + order_id + " and state <> 4";
+        int ret = MySQL.updateSQL(sql);
+        ResultSet rs = MySQL.excuteSQL(sqlAllOk);
+        try {
+            if (!rs.next()) {
+                String sqlOrderComplete = "update `order` set state = 4 where order_id = " + order_id;
+                MySQL.updateSQL(sqlOrderComplete);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return ret;
     }
 
     public static int updateDishState2(long order_id, long dish_id) {
         String sql = "update order_dish set state = 2 where order_id = " + order_id + " and dish_id = " + dish_id;
+
         return MySQL.updateSQL(sql);
     }
+
+
 }

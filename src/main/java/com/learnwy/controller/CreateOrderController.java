@@ -16,6 +16,15 @@ import java.util.List;
  * Created by 25973 on 2017-05-12.
  */
 public class CreateOrderController {
+    /**
+     * 通过dish_id或者dish_name来查询相似菜列表
+     * @param login_user
+     * @param page
+     * @param rows
+     * @param dish_name
+     * @param dish_id
+     * @return
+     */
     public static List<Dish> getDishList(User login_user, long page, TranValueClass rows, String dish_name, long dish_id) {
         if (!checkPower(login_user)) {
             return new LinkedList<>();
@@ -37,6 +46,7 @@ public class CreateOrderController {
     }
 
     /**
+     * 根据订单号插入所选菜的信息
      * @param login_user
      * @param dish_ids
      * @param dish_prices
@@ -51,6 +61,12 @@ public class CreateOrderController {
         return OrderDishDB.addOrderDishs(dish_ids, dish_prices, dish_counts,order_no);
     }
 
+    /**
+     * 插入一条订单并将订单号返回
+     * @param login_user
+     * @param table_no
+     * @return
+     */
     public static long addOrderAndGetOrderNo(User login_user, int table_no) {
         if (!checkPower(login_user)) {
             return -1;

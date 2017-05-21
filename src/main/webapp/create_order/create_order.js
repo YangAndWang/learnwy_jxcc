@@ -1,51 +1,7 @@
 ;$(function () {
-    $("#create_order_pagination").on("click", "li", function () {
-        var _this = $(this);
-        var index = _this.data("page");
-        var pages = $("#create_order_pagination");
-        var activePage = pages.find("li.active");
-        var page = activePage.length == 1 ? ((+activePage.data("page")) ) : 0;
-        if (index == "-1") {
-            if (page - 1 < 0) {
-                return;
-            } else {
-                pages.find("li").removeClass("active");
-                page--;
-                $(pages.find('li').get(page + 1)).addClass("active");
-            }
-        } else if (index === "+1") {
-            if (page > (pages.find("li").length - 4)) {
-                return;
-            } else {
-                pages.find("li").removeClass("active");
-                page++;
-                $(pages.find('li').get(page + 1)).addClass("active");
-            }
-        } else {
-            pages.find("li").removeClass("active");
-            _this.addClass("active");
-            var activePage = pages.find("li.active");
-            var page2 = activePage.length == 1 ? ((+activePage.data("page")) ) : 0;
-            if (page2 == page) {
-                return;
-            } else {
-                page = page2;
-            }
-        }
-        $.ajax('/create_order', {
-            data: {
-                "page": page, "dish_name": $("#create_order_title input").val()
-            },
-            dataType: "json",
-            error: function (e) {
-            },
-            success: function (data) {
-                dealCreateOrder(data);
-            },
-            type: "POST"
-        });
-    });
+
 });
+;var create_order_panagation_has_hander = false;
 $(function () {
     window['create_order_query'] = function () {
         $.ajax('/create_order', {
@@ -64,17 +20,65 @@ $(function () {
 });
 
 ;window["dealCreateOrder"] = function (data) {
+    if (!create_order_panagation_has_hander && $("#create_order_pagination").length > 0) {
+        $("#create_order_pagination").on("click", "li", function () {
+            var _this = $(this);
+            var index = _this.data("page");
+            var pages = $("#create_order_pagination");
+            var activePage = pages.find("li.active");
+            var page = activePage.length == 1 ? ((+activePage.data("page")) ) : 0;
+            if (index == "-1") {
+                if (page - 1 < 0) {
+                    return;
+                } else {
+                    pages.find("li").removeClass("active");
+                    page--;
+                    $(pages.find('li').get(page + 1)).addClass("active");
+                }
+            } else if (index === "+1") {
+                if (page > (pages.find("li").length - 4)) {
+                    return;
+                } else {
+                    pages.find("li").removeClass("active");
+                    page++;
+                    $(pages.find('li').get(page + 1)).addClass("active");
+                }
+            } else {
+                pages.find("li").removeClass("active");
+                _this.addClass("active");
+                var activePage = pages.find("li.active");
+                var page2 = activePage.length == 1 ? ((+activePage.data("page")) ) : 0;
+                if (page2 == page) {
+                    return;
+                } else {
+                    page = page2;
+                }
+            }
+            $.ajax('/create_order', {
+                data: {
+                    "page": page, "dish_name": $("#create_order_title input").val()
+                },
+                dataType: "json",
+                error: function (e) {
+                },
+                success: function (data) {
+                    dealCreateOrder(data);
+                },
+                type: "POST"
+            });
+        });
+    }
     var create_order_dish_id;
     var create_order_dish_name;
     var create_order_dish_path;
     var create_order_dish_price;
     var create_order_dish_discount;
     var create_orders_html_s = [];
-    var create_order_html = ['<li class="list-group-item" data-create_order_dish_id='
-        , create_order_dish_id, ' data-create_order_dish_name="', create_order_dish_name, '"' +
+    var create_order_html = ['<li class="list-group-item" data-create_order_dish_id="'
+        , create_order_dish_id, '" data-create_order_dish_name="', create_order_dish_name, '"' +
         ' data-create_order_dish_path="', create_order_dish_path, '"' +
-        ' data-create_order_dish_price=', create_order_dish_price, '' +
-        ' data-create_order_dish_discount=', create_order_dish_discount, '>', create_order_dish_name, '<', '/li>'];
+        ' data-create_order_dish_price="', create_order_dish_price, '"' +
+        ' data-create_order_dish_discount="', create_order_dish_discount, '">', create_order_dish_name, '<', '/li>'];
     var create_order_manage_html = ['<ul class="list-group">', create_orders_html_s, '<', '/ul>']
     var i = 0;
     var detail = data;

@@ -9,7 +9,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1,max-scale=1">
     <meta charset="utf-8">
     <title>老四川家常菜</title>
     <link href="css/reset.css" rel="stylesheet">
@@ -223,6 +223,24 @@
             var dish_price = +item.children[1].children[0].children[1].innerHTML;
             var img_path = item.children[0].src;
             addDishToItem([dish_id, dish_name, dish_price, img_path, 1]);
+            var offset = $(".footer").offset();
+            var fly2cart =
+                $('<img style="width:40px;height: 40px;border-radius: 20px;" src="'
+                    + _this.parentNode.parentNode.parentNode.children[0].src + '"/>');
+            fly2cart.fly({
+                start: {
+                    left: event.pageX,
+                    top: event.pageY
+                },
+                end: {
+                    left: offset.left,
+                    top: offset.top,
+                    width: 20, height: 20
+                }
+            });
+            setTimeout(function () {
+                fly2cart.destroy();
+            }, 3000)
         }
 
         //记录对应dict_id的height
@@ -398,6 +416,9 @@
         width: 120px;
     }
 </style>
+<script src="/js/jquery/jquery-3.2.1.js"></script>
+<script src="/js/jquery/requestAnimationFrame.js"></script>
+<script src="/js/jquery/fly.js"></script>
 <script src="/js/fetch.js"></script>
 <script>
     var dishCartItem = [' <ul>' +
@@ -405,7 +426,7 @@
     '<input class="dish_name" type="text" name="dish_name" readonly value="', , '">' +
     '<img width="57" height="57" src="', , '"></li>' +
     ' <li><input class="dish_price" type="number" name="dish_price" readonly value="', , '"></li>' +
-    ' <li><input class="dish_count" type="number" name="count" value="', , '"></li>' +
+    ' <li><input class="dish_count" type="number"  onchange="changeNumber(this);" name="count" value="', , '"></li>' +
     ' <li>' +
     ' <button class="dish_option" onclick="removeParentParent(this);">删除</button>' +
     ' </li>' +
@@ -413,6 +434,29 @@
     function showDishCart() {
         showDishItems();
         document.getElementById("dish_Cart").style.zIndex = 9;
+    }
+    var totlePrice = 0;
+    function changeNumber(_this) {
+        if ((+(_this.value)) <= 0) {
+            removeParentParent(_this);
+        } else {
+            var dish_id = _this.parentNode.parentNode.children[0].children[0].value;
+            var index = findDishInItem(dish_id);
+            if (index != -1) {
+                if (addItems[index][4] > (+(_this.value))) {
+                    totlePrice -= addItems[index][2] * (addItems[index][4] - (+(_this.value)));
+                    addItems[index][4] = _this.value;
+                } else if (addItems[index][4] < (+(_this.value))) {
+                    totlePrice += addItems[index][2] * ( (+(_this.value)) - addItems[index][4] );
+                    addItems[index][4] = _this.value;
+                }
+                addItems[index][2] * addItems[index][4];//price*count
+            } else {
+                //window.location.href=".";
+            }
+            document.getElementById("totlePrice").innerHTML = totlePrice;
+        }
+
     }
     function showDishItems() {
         var i = 0;
@@ -428,12 +472,21 @@
             dishCartItem[5] = addItems[i][3];
             dishCartItem[7] = addItems[i][2];
             dishCartItem[9] = addItems[i][4];
+            totlePrice += (+addItems[i][2]) * (+addItems[i][4]);
             allItems.push(dishCartItem.join(''));
         }
+        document.getElementById("totlePrice").innerHTML = totlePrice;
         document.getElementById("dish_Cart_Items").innerHTML = allItems.join('');
     }
     function removeParentParent(_this) {
+        var dish_id = _this.parentNode.parentNode.children[0].children[0].value;
+        var index = findDishInItem(dish_id);
+        if (index != -1) {
+            totlePrice -= (+addItems[index][2]) * (+addItems[index][4]);
+            addItems = [].concat(addItems.slice(0, index), addItems.slice(index + 1, addItems.length))
+        }
         _this.parentNode.parentNode.parentNode.removeChild(_this.parentNode.parentNode);
+        document.getElementById("totlePrice").innerHTML = totlePrice;
     }
     function backMenuList() {
         document.getElementById("dish_Cart").style.zIndex = -1;
@@ -450,28 +503,38 @@
         }
         return json.join('&');
     }
+    var state = 1;
     function submitCart() {
-        fetch('/customer', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'
-            },
-            body: getDishCartFormString()
-        }).then(function (response) {
-            return response.json();
-        }).then(function (data) {
-            console.log(data);
-        }).catch(function (err) {
-            console.log(err);
-        });
+        if (state === 1) {
+            state = 2;
+            fetch('/customer', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: getDishCartFormString() + '&table_no=' + (+(document.getElementById("table_no").innerHTML))
+            }).then(function (response) {
+                state = 4;
+                return response.json();
+            }).then(function (data) {
+                console.log(data);
+                if (!!data[0]) {
+                    window.location.href = '';
+                }
+                state = 8
+            }).catch(function (err) {
+                state = 1;
+                console.log(err);
+            });
+        }
     }
 </script>
 <div id="dish_Cart" class="dish_Cart">
-
     <div id="dish_Cart_Items">
     </div>
     <div class="dish_Cart-footer">
         <ul>
+            <li>总价:<span type="number" id="totlePrice"></span></li>
             <li>
                 <button onclick="backMenuList();">返回</button>
             </li>

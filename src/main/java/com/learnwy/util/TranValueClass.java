@@ -1,7 +1,7 @@
 package com.learnwy.util;
 
 /**
- * Created by 25973 on 2017-05-07.
+ * 用于返回额外的数据
  */
 public class TranValueClass {
     Object value;

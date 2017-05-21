@@ -8,6 +8,11 @@ import java.util.List;
  * Created by 25973 on 2017-05-15.
  */
 public class DictJson {
+    /**
+     * 返回DictJson数组
+     * @param allDicts
+     * @return
+     */
     public static String ListToJson(List<Dict> allDicts) {
         StringBuffer sb = new StringBuffer();
         sb.append("[ ");

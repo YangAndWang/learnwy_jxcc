@@ -20,8 +20,15 @@ public class StringUtil {
         return Empty.equals(s);
     }
 
+    /**
+     * 将long[] 转化成 id1,id2,id3的形式
+     *
+     * @param Ls
+     * @param s
+     * @return
+     */
     public static String join(long[] Ls, String s) {
-        StringBuffer sb = new StringBuffer();
+        StringBuffer sb = new StringBuffer(" ");
         for (long L : Ls) {
             sb.append(L).append(",");
         }
@@ -29,17 +36,32 @@ public class StringUtil {
         return sb.toString();
     }
 
-    public static String trimPath(String path) {
+    /**
+     * 将不是字和_去除
+     * @param path
+     * @return
+     */
+    public static String  trimPath(String path) {
         if (isNullOrEmpty(path)) {
             return Empty;
         }
         return path.replaceAll("[^\\w_/]*", "");
     }
 
+    /**
+     * 判断字符串是空指针或是空字符串
+     * @param s
+     * @return
+     */
     public static boolean isNullOrEmpty(String s) {
         return s == null || empty(s);
     }
 
+    /**
+     * 去掉一些奇奇怪怪的字符
+     * @param display_name
+     * @return
+     */
     public static String trimPathLangCN(String display_name) {
         if (isNullOrEmpty(display_name)) {
             return Empty;
@@ -47,10 +69,22 @@ public class StringUtil {
         return display_name.replaceAll("[~`!@#$%^&*\\(\\)+\\-=\\{\\}\\[\\]\"':;'<>?/\\.,]*", "");
     }
 
+    /**
+     * 将字符串转为long
+     * 1.空 为0
+     * 2.去掉非数字，在用Long转换
+     * @param pageS
+     * @return
+     */
     public static long parseToLong(String pageS) {
         return isNullOrEmpty(pageS) ? 0 : Long.valueOf(pageS.replaceAll("[\\D]*", ""));
     }
 
+    /**
+     * 判断是否可以转换成数字
+     * @param dish_name
+     * @return
+     */
     public static boolean canParseLong(String dish_name) {
         if (isNullOrEmpty(dish_name)) {
             return false;

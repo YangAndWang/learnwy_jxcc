@@ -44,7 +44,8 @@ public class MenuTreeJson {
     }
 
     public static String getSysMenuJson(List<SysMenu> sysMenus) {
-        Node r = simpleTree(sysMenus);
+        List<SysMenu> menus_copy = new LinkedList<>(sysMenus);
+        Node r = simpleTree(menus_copy);
         StringBuffer sb = new StringBuffer();
         return getSysMenuJson(r, sb);
     }
@@ -54,10 +55,23 @@ public class MenuTreeJson {
         root = new Node();
         root.data = new SysMenu(0, "", "/", 0);
         simpleTree(sysMenus, root);
+        /**
+         * 简单格式化树菜单，还有剩余节点，认为全部是离异点
+         * 假如有多个离异点，全部加入到根节点中
+         */
+        for (SysMenu sysMenu : sysMenus) {
+            Node newNode = new Node();
+            newNode.parent = root;
+            newNode.data = sysMenu;
+            root.children.add(newNode);
+        }
         return root;
     }
 
     private static void simpleTree(List<SysMenu> sysMenus, Node parent) {
+        if (parent == null) {
+            return;
+        }
         LinkedList<Integer> removeIndexs = new LinkedList<>();
         int i = 0;
         long pid = parent.data.getSysMenuId();
@@ -69,9 +83,10 @@ public class MenuTreeJson {
                 newNode.parent = parent;
                 parent.children.add(newNode);
             }
+            i++;
         }
         while (removeIndexs.size() > 0) {
-            sysMenus.remove(removeIndexs.getLast());
+            sysMenus.remove(removeIndexs.getLast().intValue());
             removeIndexs.removeLast();
         }
         if (sysMenus.size() > 0) {
@@ -79,6 +94,7 @@ public class MenuTreeJson {
                 simpleTree(sysMenus, n);
             }
         }
+
     }
 
     public boolean add(SysMenu sysMenu) {

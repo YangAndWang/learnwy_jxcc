@@ -15,6 +15,13 @@ import java.util.List;
  */
 public class RolePowerController {
 
+    /**
+     * 获取角色分页列表
+     * @param login_user
+     * @param page
+     * @param rows
+     * @return
+     */
     public static List<Role> getAllRole(User login_user, long page, TranValueClass rows) {
         if (!checkPower(login_user)) {
             return new LinkedList<>();
@@ -32,6 +39,11 @@ public class RolePowerController {
         return false;
     }
 
+    /**
+     * 获取所有的权限
+     * @param login_user
+     * @return
+     */
     public static List<Power> getAllPower(User login_user) {
         if (!checkPower(login_user)) {
             return new LinkedList<>();
@@ -39,6 +51,12 @@ public class RolePowerController {
         return PowerDB.getPowers();
     }
 
+    /**
+     * 获取对应角色id的所有权限
+     * @param login_user
+     * @param id
+     * @return
+     */
     public static String getPowersJsonByRoleID(User login_user, long id) {
         if (id == -1) {
             return "[]";
@@ -51,6 +69,13 @@ public class RolePowerController {
         return PowerJson.ListToJson(powers);
     }
 
+    /**
+     * 删除对应角色的对应权限
+     * @param login_user
+     * @param power_id
+     * @param role_id
+     * @return
+     */
     public static boolean delete(User login_user, long power_id, long role_id) {
         if (!checkPower(login_user)) {
             return false;
@@ -58,6 +83,13 @@ public class RolePowerController {
         return RolePowerDB.delRolePower(role_id, power_id) > 0;
     }
 
+    /**
+     * 给某个角色添加某个权限
+     * @param login_user
+     * @param power_id
+     * @param role_id
+     * @return
+     */
     public static boolean add(User login_user, long power_id, long role_id) {
         if (!checkPower(login_user)) {
             return false;

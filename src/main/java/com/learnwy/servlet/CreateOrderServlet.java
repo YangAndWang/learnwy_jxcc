@@ -123,6 +123,9 @@ public class CreateOrderServlet extends HttpServlet {
             long order_no = CreateOrderController.addOrderAndGetOrderNo(login_user, _table_no);
             if (order_no != -1) {
                 int addOk = CreateOrderController.addOrder(login_user, _dish_ids, _dish_prices, _dish_counts, order_no);
+                if (addOk > 0) {
+                    WebSocketWY.orderCS();
+                }
             }
         } else if (StringUtil.complete.equals(action)) {
 
